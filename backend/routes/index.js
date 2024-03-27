@@ -1,3 +1,11 @@
+const express = require('express');
+// const fetch = require('node-fetch')
+
+const router = express.Router();
+const apiRouter = require('./api');
+router.use('/api', apiRouter);
+
+
 // const express = require('express');
 // const router = express.Router();
 
@@ -16,3 +24,13 @@ router.get("/api/csrf/restore", (req, res) => {
       'XSRF-Token': csrfToken
     });
   });
+//   fetch('/api/test', {
+//     method: "POST",
+//     headers: {
+//       "Content-Type": "application/json",
+//       "XSRF-TOKEN": "WpVPxQxp-dKxSewBlHSNNLNJvw-_QaXLU_0o"
+//     },
+//     body: JSON.stringify({ hello: 'world' })
+//   }).then(res => res.json()).then(data => console.log(data));
+
+  module.exports = router;
