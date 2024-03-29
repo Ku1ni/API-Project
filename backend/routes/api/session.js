@@ -19,16 +19,16 @@ const validateLogin = [
       .withMessage('Please provide a password.'),
     handleValidationErrors
   ];
-  
-router.get(
-    '/',
-    (req, res) => {
+
+router.get('/',(req, res) => {
       const { user } = req;
       if (user) {
         const safeUser = {
           id: user.id,
           email: user.email,
           username: user.username,
+          firstName:user.firstName,
+          lastName:user.lastName
         };
         return res.json({
           user: safeUser
@@ -37,7 +37,7 @@ router.get(
     }
   );
 
-
+// Log in
   router.post(
     '/',
     validateLogin,
@@ -65,6 +65,8 @@ router.get(
         id: user.id,
         email: user.email,
         username: user.username,
+        firstName:user.firstName,
+        lastName:user.lastName
       };
 
       await setTokenCookie(res, safeUser);
@@ -74,6 +76,12 @@ router.get(
       });
     }
   );
+
+
+  router.delete('/', (_req, res)=> {
+    res.clearCookie('token');
+    return res.json({message: 'Success'})
+  })
 
 
 

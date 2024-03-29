@@ -8,6 +8,7 @@ if (process.env.NODE_ENV === 'production') {
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable('Users', {
+
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -28,6 +29,14 @@ module.exports = {
         type: Sequelize.STRING.BINARY,
         allowNull: false
       },
+      firstName: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      lastName: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
@@ -43,6 +52,8 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     options.tableName = "Users";
+    // await queryInterface.removeColumn('Users', 'firstName');
+    // await queryInterface.removeColumn('Users', 'lastName');
     return queryInterface.dropTable(options);
   }
 };
