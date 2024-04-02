@@ -18,7 +18,29 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
+    await Booking.bulkCreate([
+      {
+        spotId: 1,
+        userId: 2,
+        startDate: "2021-11-19",
+        endDate: "2021-11-20",
 
+      },
+      {
+        spotId: 2,
+        userId: 3,
+        startDate: "2021-11-19",
+        endDate: "2021-11-20",
+
+      },
+      {
+        spotId: 5,
+        userId: 1,
+        startDate: "2021-11-19",
+        endDate: "2021-11-20",
+
+      }
+    ])
   },
 
   async down (queryInterface, Sequelize) {
@@ -28,5 +50,7 @@ module.exports = {
      * Example:
      * await queryInterface.bulkDelete('People', null, {});
      */
+    options.tableName = 'Bookings';
+    return queryInterface.bulkDelete(options, {}, {})
   }
 };
