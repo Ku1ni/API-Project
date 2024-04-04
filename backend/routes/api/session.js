@@ -1,14 +1,15 @@
 const express = require('express');
 const { Op } = require('sequelize');
 const bcrypt = require('bcryptjs');
-
 const { check } = require('express-validator');
 const { handleValidationErrors } = require('../../utils/validation');
-const { setTokenCookie, restoreUser } = require('../../utils/auth');
-
+const { setTokenCookie } = require('../../utils/auth');
 const { User } = require('../../db/models');
 const router = express.Router();
 
+
+
+// Middleware
 const validateLogin = [
     check('credential')
       .exists({ checkFalsy: true })
@@ -20,6 +21,9 @@ const validateLogin = [
     handleValidationErrors
   ];
 
+
+
+// Get the Current User
 router.get('/',(req, res) => {
       const { user } = req;
       if (user) {
@@ -75,6 +79,8 @@ router.get('/',(req, res) => {
   );
 
 
+
+// Delete Token
   router.delete('/', (_req, res)=> {
     res.clearCookie('token');
     return res.json({message: 'Success'})
