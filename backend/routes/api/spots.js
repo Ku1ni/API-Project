@@ -162,9 +162,7 @@ if(!page || !size){
 // Get all Spots owned by the Current User
   router.get('/current', requireAuth, async (req, res) => {
     let userId = req.user.id;
-  if (!req.user){
-      return res.status(403).json({ message: "Forbidden"});
-    }
+
     let spots = await Spot.findAll({
       where: {
         ownerId: userId
@@ -205,10 +203,8 @@ if(!page || !size){
     const spot = await Spot.findByPk(req.params.spotId,{
       include: 'previewImage'
     });
-    const userId = req.user.id
-    if(!userId){
-      return res.status(404).json({message: "Forbidden"})
-    }
+
+
     if(spot) {
       const response = {
         ...spot.dataValues,
@@ -228,6 +224,7 @@ if(!page || !size){
   router.post('/', requireAuth, validateSpotCreation, async (req, res) => {
     const { address, city, state, country, lat, lng, name, description, price } = req.body;
     userId = req.user.id
+
     const newSpot = await Spot.create({
       ownerId: req.user.id,
       address,
@@ -240,9 +237,7 @@ if(!page || !size){
       description,
       price
     });
-    if(!userId){
-      return res.status(404).json({message: "Forbidden"})
-    }
+
     const response = {
       ...newSpot.dataValues,
       createdAt: dateFormat(newSpot.createdAt),
@@ -261,12 +256,9 @@ if(!page || !size){
     const userId = req.user.id;
 
     const spot = await Spot.findByPk(spotId);
-    if(!spot){
-      return res.status(404).json({message: "Spot couldn't be found"})
 
-    }
-    if (spot.ownerId !== userId){
-      return res.status(403).json({ "message": "Forbidden" });
+    if (!spot || spot.ownerId !== userId){
+      return res.status(404).json({ "message": "Spot couldn't be found" });
     }
     console.log("spot.userId",spot.userId);
     console.log("userId", userId);
@@ -293,11 +285,8 @@ if(!page || !size){
     const userId = req.user.id;
 
     const spot = await Spot.findByPk(spotId);
-    if(!spot){
+    if(!spot || spot.ownerId !== userId){
       return res.status(404).json({message: "Spot couldn't be found"})
-    }
-    if(spot.ownerId !== userId){
-      return res.status(404).json({message: "Forbidden"})
     }
     await spot.update({ address, city, state, country, lat, lng, name, description, price });
     const response = {
@@ -313,13 +302,11 @@ if(!page || !size){
 // Delete a Spot
   router.delete('/:spotId', requireAuth, async (req, res) => {
     const spotId = req.params.spotId;
-    const userId = req.user.id;
     const spot = await Spot.findByPk(spotId);
-    if(!spot){
+    const userId = req.user.id;
+
+    if(!spot || spot.ownerId !== userId){
       return res.status(404).json({ message: 'Spot could not be found' });
-    }
-    if(spot.ownerId !== userId){
-      return res.status(404).json({message: "Forbidden"})
     }
 
     await spot.destroy();

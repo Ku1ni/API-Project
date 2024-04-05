@@ -2,7 +2,7 @@
 const { User } = require('../models');
 const bcrypt = require("bcryptjs");
 
-return queryInterface.dropTable(options);
+
 if (process.env.NODE_ENV === 'production') {
   options.schema = process.env.SCHEMA;  // define your schema in options object
 }
@@ -41,13 +41,7 @@ module.exports = {
       lastName: 'Otters',
       hashedPassword: bcrypt.hashSync('password3', 16)
     },
-    {
-        email: "first.test@gmail.com",
-        username: "firstaatester",
-        firstName: "FirstTest",
-        lastName: "AATester",
-        hashedPassword: bcrypt.hashSync('password', 16)
-  }
+
    ], { validate: true})
   } catch (error){
     console.error('Error occurred during password hashing:', error);

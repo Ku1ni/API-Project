@@ -6,9 +6,9 @@ const router = express.Router();
 
 
 // Get all Reviews of the Current User
-router.get('/reviews/current', async (req, res) => {
-    const userId = req.user.id;
+router.get('/reviews/current', requireAuth, async (req, res) => {
 
+    const userId = req.user.id;
     const reviews = await Review.findAll({
         where: { userId: userId },
         include: [
@@ -37,26 +37,6 @@ router.get('/reviews/current', async (req, res) => {
 
 
 // Get all Reviews by a Spot's id
-// router.get('/spots/:spotId/reviews', async (req, res) => {
-//     const spotId = req.params.spotId;
-//     const reviews = await Review.findAll({
-//         where: {spotId: spotId},
-//         include: [
-//             { model: User, attributes: ['id', 'firstName', 'lastName'] },
-//             { model: ReviewImage, attributes: ['id', 'url'] }
-//         ]
-//     });
-//     if (reviews.length === 0){
-//         return res.status(404).json({ message: "Spot couldn't be found" });
-//     }
-//     const response = reviews.map(review => ({
-//         ...reviews.dataValues,
-//         createdAt: dateFormat(reviews.createdAt),
-//         updatedAt: dateFormat(review.updatedAt)
-//     }));
-
-//     return res.json({ Reviews: reviews})
-// });
 router.get('/spots/:spotId/reviews', async (req, res) => {
     const spotId = req.params.spotId;
     const reviews = await Review.findAll({
@@ -87,9 +67,6 @@ router.post('/spots/:spotId/reviews',requireAuth, async (req, res) => {
     const spotId = req.params.spotId;
     const { review, stars } = req.body;
     const userId = req.user.id
-    if(!userId){
-      return res.status(404).json({message: "Forbidden"})
-    }
     const spot = await Spot.findByPk(spotId);
     if (!spot) {
         return res.json({ message:"Spot couldn't be found"});

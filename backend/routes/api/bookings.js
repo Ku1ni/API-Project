@@ -11,11 +11,6 @@ const router = express.Router();
 // Get all of the Current User's Bookings
 router.get('/bookings/current', requireAuth, async (req, res) =>{
     const userId = req.user.id;
-
-    if(!userId){
-        return res.status(404).json({message: "Forbidden"})
-    }
-
     const userBookings = await Booking.findAll({
         where: {
             userId: userId
@@ -55,10 +50,6 @@ router.get('/bookings/current', requireAuth, async (req, res) =>{
 // Get all Bookings for a Spot based on the Spot's id
 router.get('/spots/:spotId/bookings', requireAuth, async (req, res) => {
     const spotId = req.params.spotId;
-    const userId = req.user.id;
-    if(!userId){
-        return res.status(404).json({message: "Forbidden"})
-    }
     const spot = await Spot.findByPk(spotId);
     if(!spot){
         return res.status(404).json({ message: "Spot couldn't be found" });
