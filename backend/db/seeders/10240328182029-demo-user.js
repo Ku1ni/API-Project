@@ -18,7 +18,7 @@ module.exports = {
      *   isBetaMember: false
      * }], {});
     */
-   try{
+
    await User.bulkCreate([
     {
       email: 'demo@user.io',
@@ -43,9 +43,6 @@ module.exports = {
     },
 
    ], { validate: true})
-  } catch (error){
-    console.error('Error occurred during password hashing:', error);
-  }
   },
 
   async down (queryInterface, Sequelize) {

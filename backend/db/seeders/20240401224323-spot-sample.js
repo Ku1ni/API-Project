@@ -82,7 +82,7 @@ module.exports = {
         price: 800
       }
 
-    ])
+    ], { validate: true})
   },
 
   async down (queryInterface, Sequelize) {

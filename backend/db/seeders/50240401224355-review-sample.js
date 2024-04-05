@@ -35,7 +35,7 @@ module.exports = {
       review: "Such a beautiful property!",
       stars: 5,
     }
-   ])
+   ], { validate: true})
   },
 
   async down (queryInterface, Sequelize) {

@@ -26,7 +26,7 @@ module.exports = {
     { reviewId: 3,
       url: "image url"
     }
-   ])
+   ], { validate: true})
   },
 
   async down (queryInterface, Sequelize) {

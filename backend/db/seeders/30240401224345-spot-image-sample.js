@@ -43,7 +43,7 @@ module.exports = {
       url: "https://photos.zillowstatic.com/fp/28f489b1b4658a67d2b3af1cdd127001-cc_ft_768.webp",
       preview: true
     },
-   ])
+   ], { validate: true})
   },
 
   async down (queryInterface, Sequelize) {
