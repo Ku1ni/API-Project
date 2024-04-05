@@ -140,7 +140,9 @@ router.get('/', handleValidationErrors, async (req, res) => {
 // Get all Spots owned by the Current User
   router.get('/current', requireAuth, async (req, res) => {
     let userId = req.user.id;
-
+  if (!req.user){
+      return res.status(403).json({ message: "Forbidden"});
+    }
     let spots = await Spot.findAll({
       where: {
         ownerId: userId
@@ -149,9 +151,7 @@ router.get('/', handleValidationErrors, async (req, res) => {
 
     });
 
-    if (!userId){
-      return res.status(403).json({ message: "Forbidden"});
-    }
+
 
       let newSpots = spots.map((spot) => {
         return {

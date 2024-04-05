@@ -1,4 +1,5 @@
 'use strict';
+let options = {};
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
@@ -34,5 +35,6 @@ module.exports = {
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('ReviewImages');
+    return queryInterface.dropTable(options);
   }
 };
