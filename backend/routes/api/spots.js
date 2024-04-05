@@ -34,7 +34,27 @@ const validateSpotCreation = (req, res, next) => {
 
 router.get('/', async (req, res) => {
   const { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
-if (!page || !size) res.json(allSpots = await Spot.findAll());
+if(!page || !size){
+  const allSpots = await Spot.findAll();
+    const response = allSpots.map((spot) => ({
+        id: spot.id,
+        ownerId: spot.ownerId,
+        address: spot.address,
+        city: spot.city,
+        state: spot.state,
+        country: spot.country,
+        lat: +spot.lat,
+        lng: +spot.lng,
+        name: spot.name,
+        description: spot.description,
+        price: +spot.price,
+        createdAt: dateFormat(spot.createdAt),
+        updatedAt: dateFormat(spot.updatedAt),
+        avgRating: spot.avgRating || 0,
+        previewImage: spot.previewImage ? spot.previewImage.url : null
+  }))
+  res.json(response);
+}
 
   const errors = {};
   if (page < 1) {
