@@ -10,43 +10,74 @@ router.get('/reviews/current', async (req, res) => {
     const userId = req.user.id;
 
     const reviews = await Review.findAll({
-        where: {userId: userId},
+        where: { userId: userId },
         include: [
-
-            { model: User, attributes: ['id', 'firstName', 'lastName'],
-        where: {
-            id: userId
-        }},
+            {
+                model: User,
+                attributes: ['id', 'firstName', 'lastName']
+            },
             {
                 model: Spot,
-                attributes: ['id', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price' ],
+                attributes: ['id', 'address', 'city', 'state', 'country', 'lat', 'lng', 'name', 'price'],
                 include: { model: SpotImages, as: 'previewImage', attributes: ['preview'] }
             },
             { model: ReviewImage, attributes: ['id', 'url'] }
         ]
-    })
-    if(!userId){
-        return res.status(404).json({message: "Forbidden"})
-    }
-    return res.json({reviews})
+    });
+
+    const response = reviews.map(review => ({
+        ...review.dataValues,
+        createdAt: dateFormat(review.createdAt),
+        updatedAt: dateFormat(review.updatedAt)
+    }));
+
+    return res.json(response);
 });
 
 
 
 // Get all Reviews by a Spot's id
+// router.get('/spots/:spotId/reviews', async (req, res) => {
+//     const spotId = req.params.spotId;
+//     const reviews = await Review.findAll({
+//         where: {spotId: spotId},
+//         include: [
+//             { model: User, attributes: ['id', 'firstName', 'lastName'] },
+//             { model: ReviewImage, attributes: ['id', 'url'] }
+//         ]
+//     });
+//     if (reviews.length === 0){
+//         return res.status(404).json({ message: "Spot couldn't be found" });
+//     }
+//     const response = reviews.map(review => ({
+//         ...reviews.dataValues,
+//         createdAt: dateFormat(reviews.createdAt),
+//         updatedAt: dateFormat(review.updatedAt)
+//     }));
+
+//     return res.json({ Reviews: reviews})
+// });
 router.get('/spots/:spotId/reviews', async (req, res) => {
     const spotId = req.params.spotId;
     const reviews = await Review.findAll({
-        where: {spotId: spotId},
+        where: { spotId: spotId },
         include: [
             { model: User, attributes: ['id', 'firstName', 'lastName'] },
             { model: ReviewImage, attributes: ['id', 'url'] }
         ]
     });
-    if (reviews.length === 0){
+
+    if (reviews.length === 0) {
         return res.status(404).json({ message: "Spot couldn't be found" });
     }
-    return res.json({ Reviews: reviews})
+
+    const response = reviews.map(review => ({
+        ...review.dataValues,
+        createdAt: dateFormat(review.createdAt),
+        updatedAt: dateFormat(review.updatedAt)
+    }));
+
+    return res.json(response);
 });
 
 
@@ -77,9 +108,16 @@ router.post('/spots/:spotId/reviews',requireAuth, async (req, res) => {
         userId,
         spotId,
         review,
-        stars
+        stars,
+
     });
-    return res.status(201).json(newReview)
+
+    const response = {
+        ...newReview.dataValues,
+        createdAt: dateFormat(newReview.createdAt),
+        updatedAt: dateFormat(newReview.updatedAt)
+    };
+    return res.status(201).json(response)
 });
 
 
@@ -120,8 +158,13 @@ router.post('/reviews/:reviewId/images', requireAuth, async (req, res) => {
         reviewId
     })
 
+    const response = {
+        ...newImage.dataValues,
+        createdAt: dateFormat(newImage.createdAt),
+        updatedAt: dateFormat(newImage.updatedAt)
+    };
 
-    return res.json({ id: newImage.id, url: newImage.url })
+    return res.json(response)
 
 });
 

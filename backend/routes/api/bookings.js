@@ -140,6 +140,9 @@ router.post('/spots/:spotId/bookings', requireAuth, async (req, res) => {
     return res.json(cleanBooking)
 });
 
+
+
+//Edit a Booking
 router.put('/bookings/:bookingId', requireAuth, async (req,res) => {
     const bookingId = req.params.bookingId;
     const {startDate, endDate} = req.body;
@@ -202,6 +205,9 @@ router.put('/bookings/:bookingId', requireAuth, async (req,res) => {
     return res.json(cleanBooking)
 });
 
+
+
+// Delete a Booking
 router.delete('/bookings/:bookingId', requireAuth, async (req, res) => {
     const bookingId = req.params.bookingId;
 

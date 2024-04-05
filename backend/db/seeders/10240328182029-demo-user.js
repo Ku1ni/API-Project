@@ -40,7 +40,14 @@ module.exports = {
       firstName: 'Andrew',
       lastName: 'Otters',
       hashedPassword: bcrypt.hashSync('password3', 16)
-    }
+    },
+    {
+        email: "first.test@gmail.com",
+        username: "firstaatester",
+        firstName: "FirstTest",
+        lastName: "AATester",
+        hashedPassword: bcrypt.hashSync('password', 16)
+  }
    ], { validate: true})
   } catch (error){
     console.error('Error occurred during password hashing:', error);

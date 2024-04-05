@@ -16,10 +16,8 @@ router.delete('/spot-images/:imageId', requireAuth, async (req, res) => {
     }
 
     const owner = spotImage.Spot.ownerId
-    console.log("ownerId:", ownerId);
-        console.log("owner:", owner);
+
     if (owner !== ownerId) {
-        console.log("User ID:", req.user.id);
         return res.status(403).json({ message: "You are not authorized to delete this spot image" });
     }
 

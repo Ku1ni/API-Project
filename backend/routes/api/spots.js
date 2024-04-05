@@ -31,8 +31,10 @@ const validateSpotCreation = (req, res, next) => {
 
 
 // Get All Spots
-router.get('/', handleValidationErrors, async (req, res) => {
+
+router.get('/', async (req, res) => {
   const { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+if (!page || !size) res.json(allSpots = await Spot.findAll());
 
   const errors = {};
   if (page < 1) {
@@ -190,7 +192,8 @@ router.get('/', handleValidationErrors, async (req, res) => {
     if(spot) {
       const response = {
         ...spot.dataValues,
-
+        createdAt: dateFormat(spot.createdAt),
+        updatedAt: dateFormat(spot.updatedAt),
         previewImage: spot.previewImage ? spot.previewImage.url : null
       }
       return res.json(response)
@@ -220,7 +223,12 @@ router.get('/', handleValidationErrors, async (req, res) => {
     if(!userId){
       return res.status(404).json({message: "Forbidden"})
     }
-    return res.json(newSpot)
+    const response = {
+      ...newSpot.dataValues,
+      createdAt: dateFormat(newSpot.createdAt),
+      updatedAt: dateFormat(newSpot.updatedAt)
+    }
+    return res.json(response)
   });
 
 
@@ -232,20 +240,28 @@ router.get('/', handleValidationErrors, async (req, res) => {
     const spotId = req.params.spotId;
     const userId = req.user.id;
 
-    const spot = await SpotImages.findByPk(spotId);
+    const spot = await Spot.findByPk(spotId);
     if(!spot){
       return res.status(404).json({message: "Spot couldn't be found"})
 
     }
-    if (spot.userId !== userId){
+    if (spot.ownerId !== userId){
       return res.status(403).json({ "message": "Forbidden" });
     }
+    console.log("spot.userId",spot.userId);
+    console.log("userId", userId);
       const newImage = await SpotImages.create({
         url: url,
         spotId: spot.id,
         preview: true
-      })
-      res.json(newImage)
+      });
+
+      const response = {
+        ...newImage.dataValues,
+        createdAt: dateFormat(newImage.createdAt),
+        updatedAt: dateFormat(newImage.updatedAt)
+      }
+      res.json(response)
 
   })
 
@@ -264,7 +280,12 @@ router.get('/', handleValidationErrors, async (req, res) => {
       return res.status(404).json({message: "Forbidden"})
     }
     await spot.update({ address, city, state, country, lat, lng, name, description, price });
-    return res.json(spot)
+    const response = {
+      ...spot.dataValues,
+      createdAt: dateFormat(spot.createdAt),
+      updatedAt: dateFormat(spot.updatedAt)
+    }
+    return res.json(response)
   });
 
 
