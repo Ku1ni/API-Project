@@ -69,7 +69,7 @@ router.post('/spots/:spotId/reviews',requireAuth, async (req, res) => {
     const userId = req.user.id
     const spot = await Spot.findByPk(spotId);
     if (!spot) {
-        return res.json({ message:"Spot couldn't be found"});
+        return res.status(404).json({ message:"Spot couldn't be found"});
     }
     const pastReview = await Review.findOne({
         where: {
@@ -77,7 +77,7 @@ router.post('/spots/:spotId/reviews',requireAuth, async (req, res) => {
             spotId
         }
     });
-    
+
     if (!review || !stars || stars < 1 || stars > 5) {
         return res.status(400).json({
             message: "Bad Request",
@@ -88,7 +88,7 @@ router.post('/spots/:spotId/reviews',requireAuth, async (req, res) => {
         });
     }
     if(pastReview) {
-        return res.json({ message: "User already has a review for this spot"})
+        return res.status(500).json({ message: "User already has a review for this spot"})
     }
 
     const newReview = await Review.create({
@@ -130,13 +130,13 @@ router.post('/reviews/:reviewId/images', requireAuth, async (req, res) => {
         return res.status(403).json({ message: "Unauthorized: Review does not belong to the current user" });
     }
 
-    const pastImages = await ReviewImage.findAll ({
+    const pastImages = await ReviewImage.count({
         where: {
             reviewId
         }
     })
 
-    if(pastImages.length >= 10){
+    if(pastImages >= 10){
         return res.status(403).json({ message: "Maximum number of images for this review was reached" })
     }
 

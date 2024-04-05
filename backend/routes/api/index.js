@@ -54,7 +54,7 @@ router.use('/', bookingRouter);
 router.use('/users', usersRouter);
 router.use('/spots', spotsRouter);
 router.use('/', spotImageRouter);
-router.use('/', reviewRouter)
+router.use('/', reviewRouter);
 router.post('/test', (req, res) => {
   res.json({ requestBody: req.body });
 });
