@@ -31,30 +31,22 @@ const validateSpotCreation = (req, res, next) => {
 
 
 // Get All Spots
+router.get("/", async (req, res) => {
+  let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
 
-router.get('/', async (req, res) => {
-  const { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
-if(!page || !size){
-  const allSpots = await Spot.findAll();
-    const response = allSpots.map((spot) => ({
-        id: spot.id,
-        ownerId: spot.ownerId,
-        address: spot.address,
-        city: spot.city,
-        state: spot.state,
-        country: spot.country,
-        lat: +spot.lat,
-        lng: +spot.lng,
-        name: spot.name,
-        description: spot.description,
-        price: +spot.price,
-        createdAt: dateFormat(spot.createdAt),
-        updatedAt: dateFormat(spot.updatedAt),
-        avgRating: spot.avgRating || 0,
-        previewImage: spot.previewImage ? spot.previewImage.url : null
-  }))
-  res.json(response);
-}
+  page = parseInt(page) || 1;
+  size = parseInt(size) || 20;
+  page = Math.min(page, 10);
+  size = Math.min(size, 20);
+
+  let pagObj = {
+    limit: size,
+    offset: size * (page - 1),
+  };
+
+  let searchObj = {
+    where: {}
+  };
 
   const errors = {};
   if (page < 1) {
@@ -110,54 +102,58 @@ if(!page || !size){
       }
   }
 
-  const totalCount = await Spot.count({ where: filterCriteria });
-  const paginatedSpots = await Spot.findAll({
-      where: filterCriteria,
-      limit: size,
-      offset: (page - 1) * size
+  let spots = await Spot.findAll({
+    ...pagObj,
+    ...searchObj
   });
 
-  for (let i = 0; i < paginatedSpots.length; i++) {
-      let sum = 0;
-      let reviews = await Review.findAll({
-          where: { spotId: paginatedSpots[i].id }
-      });
-      for (let j = 0; j < reviews.length; j++) {
-          sum += reviews[j].stars;
-      }
-      paginatedSpots[i].avgRating = reviews.length > 0 ? sum / reviews.length : 0;
-      paginatedSpots[i].previewImage = await SpotImages.findOne({
-          where: { spotId: paginatedSpots[i].id, preview: true },
-          attributes: ["url"]
-      });
+  for (let i = 0; i < spots.length; i++) {
+    let spot = spots[i];
+    let sum = 0;
+    let reviews = await Review.findAll({
+      where: { spotId: spot.id }
+    });
+    for (let j = 0; j < reviews.length; j++) {
+      sum += reviews[j].stars;
+    }
+    let average = reviews.length > 0 ? sum / reviews.length : 0;
+
+    spot.avgRating = average;
+
+    let previewImage = await SpotImages.findOne({
+      where: { spotId: spot.id, preview: true },
+      attributes: ["url"]
+    });
+
+    spot.previewImage = previewImage ? previewImage.url : null;
   }
 
-  let fixed = paginatedSpots.map((spot) => ({
-      id: spot.id,
-      ownerId: spot.ownerId,
-      address: spot.address,
-      city: spot.city,
-      state: spot.state,
-      country: spot.country,
-      lat: +spot.lat,
-      lng: +spot.lng,
-      name: spot.name,
-      description: spot.description,
-      price: +spot.price,
-      createdAt: dateFormat(spot.createdAt),
-      updatedAt: dateFormat(spot.updatedAt),
-      avgRating: spot.avgRating || 0,
-      previewImage: spot.previewImage ? spot.previewImage.url : null
+  let fixed = spots.map((spot) => ({
+    id: spot.id,
+    ownerId: spot.ownerId,
+    address: spot.address,
+    city: spot.city,
+    state: spot.state,
+    country: spot.country,
+    lat: +spot.lat,
+    lng: +spot.lng,
+    name: spot.name,
+    description: spot.description,
+    price: +spot.price,
+    createdAt: dateFormat(spot.createdAt),
+    updatedAt: dateFormat(spot.updatedAt),
+    avgRating: spot.avgRating || 0,
+    previewImage: spot.previewImage
   }));
 
-  res.json({
-      Spots: fixed,
-      page: parseInt(page, 10),
-      size: parseInt(size, 10),
-      totalCount: totalCount
-  });
-});
+  let response = { Spots: fixed };
+  if (req.query.size) {
+    response.page = +page;
+    response.size = +size;
+  }
 
+  res.status(200).json(response);
+});
 
 // Get all Spots owned by the Current User
   router.get('/current', requireAuth, async (req, res) => {
@@ -257,11 +253,13 @@ if(!page || !size){
 
     const spot = await Spot.findByPk(spotId);
 
-    if (!spot || spot.ownerId !== userId){
+    if (!spot){
       return res.status(404).json({ "message": "Spot couldn't be found" });
     }
-    console.log("spot.userId",spot.userId);
-    console.log("userId", userId);
+    if (spot.ownerId !== userId){
+      return res.status(404).json({ "message": "Authentication required" });
+    }
+
       const newImage = await SpotImages.create({
         url: url,
         spotId: spot.id,
@@ -269,9 +267,9 @@ if(!page || !size){
       });
 
       const response = {
-        ...newImage.dataValues,
-        createdAt: dateFormat(newImage.createdAt),
-        updatedAt: dateFormat(newImage.updatedAt)
+        id: newImage.id,
+        url: newImage.url,
+        preview: newImage.preview
       }
       res.json(response)
 
@@ -285,8 +283,11 @@ if(!page || !size){
     const userId = req.user.id;
 
     const spot = await Spot.findByPk(spotId);
-    if(!spot || spot.ownerId !== userId){
+    if(!spot){
       return res.status(404).json({message: "Spot couldn't be found"})
+    }
+    if(spot.ownerId !== userId){
+      return res.status(404).json({message: "Authentication required"})
     }
     await spot.update({ address, city, state, country, lat, lng, name, description, price });
     const response = {

@@ -77,6 +77,16 @@ router.post('/spots/:spotId/reviews',requireAuth, async (req, res) => {
             spotId
         }
     });
+    
+    if (!review || !stars || stars < 1 || stars > 5) {
+        return res.status(400).json({
+            message: "Bad Request",
+            errors: {
+                review: "Review text is required",
+                stars: "Stars must be an integer from 1 to 5",
+            }
+        });
+    }
     if(pastReview) {
         return res.json({ message: "User already has a review for this spot"})
     }
