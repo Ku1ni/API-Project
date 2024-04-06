@@ -2,7 +2,6 @@ const express = require('express');
 const {requireAuth} = require('../../utils/auth');
 const { Op } = require('sequelize');
 const { dateFormat } = require('../../utils/date');
-const { handleValidationErrors } = require('../../utils/validation');
 const { Spot, SpotImages, Review } = require('../../db/models');
 const router = express.Router();
 
@@ -10,7 +9,7 @@ const router = express.Router();
 
 //Middleware
 const validateSpotCreation = (req, res, next) => {
-  let { address, city, state, country, lat, lng, name, description, price } = req.body;
+  const { address, city, state, country, lat, lng, name, description, price } = req.body;
   if (!address || !city || !state || !country || !lat || !lng || !name || !description || !price || price < 0 || lat < -90 || lat > 90 || lng < -180 || lng > 180 || name > 50) {
       return res.status(400).json({
         message: "Bad Request",
@@ -33,19 +32,19 @@ const validateSpotCreation = (req, res, next) => {
 
 // Get All Spots
 router.get("/", async (req, res) => {
-  let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+  const { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
 
   page = parseInt(page) || 1;
   size = parseInt(size) || 20;
   page = Math.min(page, 10);
   size = Math.min(size, 20);
 
-  let pagObj = {
+  const pagObj = {
     limit: size,
     offset: size * (page - 1),
   };
 
-  let searchObj = {
+  const searchObj = {
     where: {}
   };
 
@@ -109,7 +108,7 @@ router.get("/", async (req, res) => {
   }
 
   searchObj.where = { ...searchObj.where, ...Object.assign({}, ...whereConditions) };
-  let spots = await Spot.findAll({
+  const spots = await Spot.findAll({
     ...pagObj,
     ...searchObj
   });
@@ -123,11 +122,11 @@ router.get("/", async (req, res) => {
     for (let j = 0; j < reviews.length; j++) {
       sum += reviews[j].stars;
     }
-    let average = reviews.length > 0 ? sum / reviews.length : 0;
+    const average = reviews.length > 0 ? sum / reviews.length : 0;
 
     spot.avgRating = average;
 
-    let previewImage = await SpotImages.findOne({
+    const previewImage = await SpotImages.findOne({
       where: { spotId: spot.id, preview: true },
       attributes: ["url"]
     });
@@ -135,7 +134,7 @@ router.get("/", async (req, res) => {
     spot.previewImage = previewImage ? previewImage.url : null;
   }
 
-  let fixed = spots.map((spot) => ({
+  const fixed = spots.map((spot) => ({
     id: spot.id,
     ownerId: spot.ownerId,
     address: spot.address,
@@ -153,7 +152,7 @@ router.get("/", async (req, res) => {
     previewImage: spot.previewImage
   }));
 
-  let response = { Spots: fixed };
+  const response = { Spots: fixed };
   if (req.query.size) {
     response.page = +page;
     response.size = +size;
@@ -164,9 +163,9 @@ router.get("/", async (req, res) => {
 
 // Get all Spots owned by the Current User
   router.get('/current', requireAuth, async (req, res) => {
-    let userId = req.user.id;
+    const userId = req.user.id;
 
-    let spots = await Spot.findAll({
+    const spots = await Spot.findAll({
       where: {
         ownerId: userId
       },
@@ -176,7 +175,7 @@ router.get("/", async (req, res) => {
 
 
 
-      let newSpots = spots.map((spot) => {
+      const newSpots = spots.map((spot) => {
         return {
           id: spot.id,
           ownerId: spot.ownerId,
