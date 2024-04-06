@@ -88,49 +88,50 @@ router.post('/spots/:spotId/bookings', requireAuth, async (req, res) => {
         return res.status(404).json({ message: "Spot couldn't be found" });
     }
 
-    if (startDate === endDate) {
-        return res.status(403).json({ message: "Start date and end date cannot be the same" });
-    }
-
-    if (new Date(startDate) > new Date(endDate)) {
-        return res.status(403).json({ message: "End date cannot be before the start date" });
-    }
-
-    if (new Date(startDate) < new Date() || new Date(endDate) < new Date()) {
-        return res.status(403).json({ message: "Booking dates cannot be in the past" });
-    }
-
-    if (spot.ownerId !== req.user.id){
-        return res.status(403).json({ message: "You are not authorized to book your own spot" });
-    }
-
     const existingBooking = await Booking.findOne({
         where: {
             spotId,
-            [Op.or]: [
-                {
-                    [Op.and]: [
-                        { startDate: { [Op.lt]: endDate } },
-                        { endDate: { [Op.gt]: startDate } }
-                    ]
-                },
-                {
-                    [Op.and]: [
-                        { startDate: { [Op.lte]: startDate } },
-                        { endDate: { [Op.gte]: endDate } }
-                    ]
-                }
+            [Op.and]: [
+                { startDate: { [Op.lt]: endDate } },
+                { endDate: { [Op.gt]: startDate } }
             ]
         }
     });
 
-    if (existingBooking) {
-        return res.status(403).json({ message: "Sorry, this spot is already booked for the specified dates", errors: {
+      if (new Date(startDate) === new Date(endDate)) {
+        return res.status(403).json({ message: "Start date and end date cannot be the same" });
+    } else if (new Date(startDate) > new Date(endDate)) {
+        return res.status(403).json({ message: "End date cannot be before the start date" });
+    } else if (new Date(startDate) < new Date() || new Date(endDate) < new Date()) {
+        return res.status(403).json({ message: "Booking dates cannot be in the past" });
+    } else if (existingBooking) {
+        return res.status(403).json({ message: "Conflicting booking dates", errors: {
             startDate: "Start date conflicts with an existing booking",
             endDate: "End date conflicts with an existing booking"
         } });
-    }
+    } else {
 
+        const startingDuringBooking = await Booking.findOne({
+            where: {
+                spotId,
+                startDate: { [Op.lte]: startDate },
+                endDate: { [Op.gt]: startDate }
+            }
+        });
+
+
+        const endingDuringBooking = await Booking.findOne({
+            where: {
+                spotId,
+                startDate: { [Op.lt]: endDate },
+                endDate: { [Op.gte]: endDate }
+            }
+        });
+
+        if (startingDuringBooking || endingDuringBooking) {
+            return res.status(403).json({ message: "Booking starts or ends during an existing booking" });
+        }
+    }
     const newBooking = await Booking.create({
         spotId,
         userId: req.user.id,
@@ -148,6 +149,75 @@ router.post('/spots/:spotId/bookings', requireAuth, async (req, res) => {
 
     return res.json(cleanBooking);
 });
+// router.post('/spots/:spotId/bookings', requireAuth, async (req, res) => {
+//     const spotId = req.params.spotId;
+//     const { startDate, endDate } = req.body;
+
+//     const spot = await Spot.findByPk(spotId);
+//     if (!spot) {
+//         return res.status(404).json({ message: "Spot couldn't be found" });
+//     }
+
+//     if (startDate === endDate) {
+//         return res.status(403).json({ message: "Start date and end date cannot be the same" });
+//     }
+
+//     if (new Date(startDate) > new Date(endDate)) {
+//         return res.status(403).json({ message: "End date cannot be before the start date" });
+//     }
+
+//     if (new Date(startDate) < new Date() || new Date(endDate) < new Date()) {
+//         return res.status(403).json({ message: "Booking dates cannot be in the past" });
+//     }
+
+//     if (spot.ownerId !== req.user.id){
+//         return res.status(403).json({ message: "You are not authorized to book your own spot" });
+//     }
+
+//     const existingBooking = await Booking.findOne({
+//         where: {
+//             spotId,
+//             [Op.or]: [
+//                 {
+//                     [Op.and]: [
+//                         { startDate: { [Op.lt]: endDate } },
+//                         { endDate: { [Op.gt]: startDate } }
+//                     ]
+//                 },
+//                 {
+//                     [Op.and]: [
+//                         { startDate: { [Op.lte]: startDate } },
+//                         { endDate: { [Op.gte]: endDate } }
+//                     ]
+//                 }
+//             ]
+//         }
+//     });
+
+//     if (existingBooking) {
+//         return res.status(403).json({ message: "Sorry, this spot is already booked for the specified dates", errors: {
+//             startDate: "Start date conflicts with an existing booking",
+//             endDate: "End date conflicts with an existing booking"
+//         } });
+//     }
+
+//     const newBooking = await Booking.create({
+//         spotId,
+//         userId: req.user.id,
+//         startDate,
+//         endDate
+//     });
+
+//     const cleanBooking = {
+//         ...newBooking.toJSON(),
+//         startDate: dateFormat(newBooking.startDate),
+//         endDate: dateFormat(newBooking.endDate),
+//         createdAt: dateFormat(newBooking.createdAt),
+//         updatedAt: dateFormat(newBooking.updatedAt)
+//     }
+
+//     return res.json(cleanBooking);
+// });
 
 
 
@@ -177,18 +247,26 @@ router.put('/bookings/:bookingId', requireAuth, async (req, res) => {
         }
 
         let existingBooking = await Booking.findOne({
-          where: {
-            id: {
-                [Op.ne]: bookingId
-            },
-            spotId: booking.spotId,
-            startDate: {
-                [Op.lte]: new Date(endDate)
-            },
-            endDate: {
-                [Op.gte]: new Date(startDate)
-            },
-          },
+            where: {
+                id: {
+                    [Op.ne]: bookingId
+                },
+                spotId: booking.spotId,
+                [Op.or]: [
+                    {
+                        startDate: { [Op.lte]: new Date(endDate) },
+                        endDate: { [Op.gte]: new Date(startDate) }
+                    },
+                    {
+                        startDate: { [Op.lte]: new Date(startDate) },
+                        endDate: { [Op.gte]: new Date(endDate) }
+                    },
+                    {
+                        startDate: { [Op.gt]: new Date(startDate) },
+                        endDate: { [Op.lt]: new Date(endDate) }
+                    }
+                ]
+            }
         });
 
 
