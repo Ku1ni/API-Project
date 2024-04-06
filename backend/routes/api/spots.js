@@ -1,5 +1,6 @@
 const express = require('express');
 const {requireAuth} = require('../../utils/auth');
+const { Op } = require('sequelize');
 const { dateFormat } = require('../../utils/date');
 const { handleValidationErrors } = require('../../utils/validation');
 const { Spot, SpotImages, Review } = require('../../db/models');
@@ -81,27 +82,33 @@ router.get("/", async (req, res) => {
       });
   }
 
-  const filterCriteria = {};
+  const whereConditions = [];
+
   if (minLat && maxLat) {
-      filterCriteria.lat = { [Sequelize.Op.gte]: minLat, [Sequelize.Op.lte]: maxLat };
-  }
-  if (minLng && maxLng) {
-      filterCriteria.lng = { [Sequelize.Op.gte]: minLng, [Sequelize.Op.lte]: maxLng };
-  }
-  if (minPrice !== undefined && maxPrice !== undefined) {
-      filterCriteria.price = {
-          [Sequelize.Op.gte]: minPrice,
-          [Sequelize.Op.lte]: maxPrice
-      };
-  } else {
-      if (minPrice !== undefined) {
-          filterCriteria.price = { [Sequelize.Op.gte]: minPrice };
-      }
-      if (maxPrice !== undefined) {
-          filterCriteria.price = { ...filterCriteria.price, [Sequelize.Op.lte]: maxPrice };
-      }
+      whereConditions.push({ lat: { [Op.between]: [minLat, maxLat] } });
+  } else if (minLat) {
+      whereConditions.push({ lat: { [Op.gte]: minLat } });
+  } else if (maxLat) {
+      whereConditions.push({ lat: { [Op.lte]: maxLat } });
   }
 
+  if (minLng && maxLng) {
+      whereConditions.push({ lng: { [Op.between]: [minLng, maxLng] } });
+  } else if (minLng) {
+      whereConditions.push({ lng: { [Op.gte]: minLng } });
+  } else if (maxLng) {
+      whereConditions.push({ lng: { [Op.lte]: maxLng } });
+  }
+
+  if (minPrice && maxPrice) {
+      whereConditions.push({ price: { [Op.between]: [minPrice, maxPrice] } });
+  } else if (minPrice) {
+      whereConditions.push({ price: { [Op.gte]: minPrice } });
+  } else if (maxPrice) {
+      whereConditions.push({ price: { [Op.lte]: maxPrice } });
+  }
+
+  searchObj.where = { ...searchObj.where, ...Object.assign({}, ...whereConditions) };
   let spots = await Spot.findAll({
     ...pagObj,
     ...searchObj
@@ -239,7 +246,7 @@ router.get("/", async (req, res) => {
       createdAt: dateFormat(newSpot.createdAt),
       updatedAt: dateFormat(newSpot.updatedAt)
     }
-    return res.json(response)
+    return res.status(201).json(response)
   });
 
 
