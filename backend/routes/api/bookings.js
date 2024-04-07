@@ -175,7 +175,7 @@ router.put('/bookings/:bookingId', requireAuth, async (req, res) => {
         }
 
         if (startDate === endDate) {
-        return res.status(403).json({ message: "Start date and end date cannot be the same" });
+        return res.status(400).json({ message: "Start date and end date cannot be the same" });
         }
 
         if (user.id !== booking.userId) {
@@ -183,7 +183,7 @@ router.put('/bookings/:bookingId', requireAuth, async (req, res) => {
         }
 
         if (new Date(startDate) < date || new Date(endDate) < date) {
-          return res.status(403).json({ message: "Past bookings can't be modified" });
+          return res.status(400).json({ message: "Past bookings can't be modified" });
         }
         if (new Date(endDate) < new Date(startDate)) {
           return res.status(400).json({ message: "End date cannot be before the start date" });

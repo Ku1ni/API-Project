@@ -122,7 +122,8 @@ router.post('/reviews/:reviewId/images', requireAuth, async (req, res) => {
 
 
     const review = await Review.findByPk(reviewId, {
-        include: User
+        include: User,
+        attributes: { exclude: ['createdAt', 'updatedAt'] }
     });
 
     if(!review){
@@ -146,11 +147,13 @@ router.post('/reviews/:reviewId/images', requireAuth, async (req, res) => {
     }
 
     const newImage = await ReviewImage.create({
-        url,
-        reviewId
+        url
     })
-
-    return res.json(newImage)
+    const response = {
+        id: newImage.id,
+        url: newImage.url
+      }
+    return res.json(response)
 
 });
 
@@ -195,7 +198,6 @@ router.put('/reviews/:reviewId', requireAuth, async (req, res) =>{
         spotId: pastReview.spotId,
         review: pastReview.review,
         stars: pastReview.stars,
-        user: pastReview.User,
         createdAt: dateFormat(pastReview.createdAt),
         updatedAt: dateFormat(pastReview.updatedAt)
     });
