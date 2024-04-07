@@ -10,7 +10,8 @@ const router = express.Router();
 //Middleware
 const validateSpotCreation = (req, res, next) => {
   const { address, city, state, country, lat, lng, name, description, price } = req.body;
-  if (!address || !city || !state || !country || !lat || !lng || !name || !description || !price || price < 0 || lat < -90 || lat > 90 || lng < -180 || lng > 180 || name > 50) {
+  if (!address || !city || !state || !country || !lat || !lng || !name || !description ||
+    !price || price < 0 || lat < -90 || lat > 90 || lng < -180 || lng > 180 || name > 50) {
       return res.status(400).json({
         message: "Bad Request",
         errors: {
@@ -32,7 +33,7 @@ const validateSpotCreation = (req, res, next) => {
 
 // Get All Spots
 router.get("/", async (req, res) => {
-  const { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
+  let { page, size, minLat, maxLat, minLng, maxLng, minPrice, maxPrice } = req.query;
 
   page = parseInt(page) || 1;
   size = parseInt(size) || 20;

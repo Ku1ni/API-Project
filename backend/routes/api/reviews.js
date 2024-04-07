@@ -38,9 +38,14 @@ router.get('/reviews/current', requireAuth, async (req, res) => {
 
 // Get all Reviews by a Spot's id
 router.get('/spots/:spotId/reviews', async (req, res) => {
-    const spotId = req.params.spotId;
-    const reviews = await Review.findAll({
-        where: { spotId: spotId },
+    let { spotId } = req.params;
+    let spot = await Spot.findByPk(spotId);
+
+    if (!spot) {
+      return res.status(404).json({ message: "Spot couldn't be found" });
+    }
+    let reviews = await Review.findAll({
+        where: { spotId },
         include: [
             { model: User, attributes: ['id', 'firstName', 'lastName'] },
             { model: ReviewImage, attributes: ['id', 'url'] }
@@ -48,7 +53,7 @@ router.get('/spots/:spotId/reviews', async (req, res) => {
     });
 
     if (reviews.length === 0) {
-        return res.status(404).json({ message: "Spot couldn't be found" });
+        return res.status(404).json({ message: "No reviews found for this spot" });
     }
 
     const response = reviews.map(review => ({
@@ -63,32 +68,49 @@ router.get('/spots/:spotId/reviews', async (req, res) => {
 
 
 // Create a Review for a Spot based on the Spot's id
-router.post("/spots/:spotId/reviews", requireAuth, async (req, res) => {
+router.post('/spots/:spotId/reviews',requireAuth, async (req, res) => {
     const spotId = req.params.spotId;
     const { review, stars } = req.body;
-    const userId = req.user.id;
+    const userId = req.user.id
+    const spot = await Spot.findByPk(spotId);
+    if (!spot) {
+        return res.status(404).json({ message:"Spot couldn't be found"});
+    }
+    const pastReview = await Review.findOne({
+        where: {
+            userId,
+            spotId
+        }
+    });
 
-      const spot = await Spot.findByPk(spotId);
-      if (!spot) {
-        return res.status(404).json({ message: "Spot couldn't be found" });
-      }
-      const existingReview = await Review.findOne({ where: { spotId, userId } });
-      if (existingReview) {
-        return res.status(400).json({ message: "User already has a review for this spot" });
-      }
-      const newReview = await Review.create({ spotId, userId, review, stars });
+    if (!review || !stars || stars < 1 || stars > 5) {
+        return res.status(400).json({
+            message: "Bad Request",
+            errors: {
+                review: "Review text is required",
+                stars: "Stars must be an integer from 1 to 5",
+            }
+        });
+    }
+    if(pastReview) {
+        return res.status(500).json({ message: "User already has a review for this spot"})
+    }
 
-      const response = {
-        id: newReview.id,
-        userId: newReview.userId,
-        spotId: newReview.spotId,
-        review: newReview.review,
-        stars: newReview.stars,
+    const newReview = await Review.create({
+        userId,
+        spotId,
+        review,
+        stars,
+
+    });
+
+    const response = {
+        ...newReview.dataValues,
         createdAt: dateFormat(newReview.createdAt),
         updatedAt: dateFormat(newReview.updatedAt)
-      };
-      return res.status(201).json(response);
-  });
+    };
+    return res.status(201).json(response)
+});
 
 
 
@@ -128,13 +150,7 @@ router.post('/reviews/:reviewId/images', requireAuth, async (req, res) => {
         reviewId
     })
 
-    const response = {
-        ...newImage.dataValues,
-        createdAt: dateFormat(newImage.createdAt),
-        updatedAt: dateFormat(newImage.updatedAt)
-    };
-
-    return res.json(response)
+    return res.json(newImage)
 
 });
 
