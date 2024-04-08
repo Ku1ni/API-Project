@@ -147,7 +147,8 @@ router.post('/reviews/:reviewId/images', requireAuth, async (req, res) => {
     }
 
     const newImage = await ReviewImage.create({
-        url
+        url,
+        reviewId
     })
     const response = {
         id: newImage.id,
