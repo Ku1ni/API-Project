@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { CgProfile } from 'react-icons/cg';
 import * as sessionActions from '../../store/session';
-import OpenModalButton from '../OpenModalButton/OpenModelButton';
+// import OpenModalButton from '../OpenModalButton/OpenModelButton';
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
 import SignupFormModal from '../SignupFormModal/SignupFormModal';
 import './ProfileButton.css';
