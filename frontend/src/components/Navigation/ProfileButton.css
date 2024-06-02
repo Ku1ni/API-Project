@@ -1,0 +1,28 @@
+
+.profile-button {
+    font-size: 24px;
+    cursor: pointer;
+  }
+
+  .profile-dropdown {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    padding: 10px;
+    list-style: none;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .profile-dropdown.hidden {
+    display: none;
+  }
+
+  .profile-dropdown li {
+    margin-bottom: 8px;
+  }
+
+  .profile-dropdown button {
+    cursor: pointer;
+  }
