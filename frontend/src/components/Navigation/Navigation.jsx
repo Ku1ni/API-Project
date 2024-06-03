@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import OpenModalButton from "../OpenModalButton/OpenModelButton";
 import LoginFormModal from "../LoginFormModal/LoginFormModal";
+import { FaUmbrellaBeach } from "react-icons/fa6";
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
 import "./Navigation.css";
 
@@ -16,13 +17,13 @@ function Navigation({ isLoaded }) {
     </li>
   ) : (
     <ul className='credential-container'>
-      <li>
+      <li className="login-container">
         <OpenModalButton
           buttonText="Log In"
           modalComponent={<LoginFormModal />}
         />
       </li>
-      <li>
+      <li className="signup-container">
         <OpenModalButton
           buttonText="Sign Up"
           modalComponent={<SignupFormModal />}
@@ -32,12 +33,16 @@ function Navigation({ isLoaded }) {
   );
 
   return (
+    <div>
+
     <ul className='home-container' style={{ listStyle: "none" }}>
-      <li >
-        <NavLink to="/">Home</NavLink>
+      <li className="home-button">
+        <NavLink to="/"><FaUmbrellaBeach size={50} /></NavLink>
       </li>
       {isLoaded && sessionLinks}
     </ul>
+
+    </div>
   );
 }
 

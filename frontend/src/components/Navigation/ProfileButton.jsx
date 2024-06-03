@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { CgProfile } from 'react-icons/cg';
+
 import * as sessionActions from '../../store/session';
 // import OpenModalButton from '../OpenModalButton/OpenModelButton';
 import LoginFormModal from '../LoginFormModal/LoginFormModal';
@@ -47,6 +48,7 @@ function ProfileButton({ user }) {
 
   return (
     <>
+
       <button className='menu-button' onClick={toggleMenu}>
         <CgProfile className="profile-button" />
       </button>

@@ -12,7 +12,7 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    margin-right: 50px;
+    /* margin-right: 50px; */
 
   }
   .button-container button {
@@ -21,4 +21,51 @@
    border: 1px solid #ccc;
    border-radius: 10px;
    background-color: white;
+  }
+
+  .home-container {
+
+     display: flex;
+    justify-content: center;
+    gap: 90%;
+    align-items: center;
+    padding: 10px 40px ;
+
+  }
+
+  .home-button {
+    display: grid;
+
+
+  }
+
+  .home-icon path {
+    width: 80px;
+  }
+
+  .credential-container {
+    list-style: none;
+    border: 1px solid #ccc;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 10px;
+    gap: 10px;
+    border-radius: 10px;
+  }
+
+  .login-container button, .signup-container button {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    display: flex;
+    background-color: white;
+    width: 100%;
+    justify-content: center;
+    align-content: center;
+    padding: 10px;
+  }
+
+  .login-container button:hover, .signup-container button:hover {
+    box-shadow: 5px 5px 5px #ccc;
+
   }
