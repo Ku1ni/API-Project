@@ -12,4 +12,13 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    margin-right: 50px;
+
+  }
+  .button-container button {
+   display: flex;
+   padding: 6px 6px;
+   border: 1px solid #ccc;
+   border-radius: 10px;
+   background-color: white;
   }

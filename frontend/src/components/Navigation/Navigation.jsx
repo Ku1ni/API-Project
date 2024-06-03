@@ -12,7 +12,7 @@ function Navigation({ isLoaded }) {
 
   const sessionLinks = sessionUser ? (
     <li className="button-container">
-      <ProfileButton user={sessionUser} />
+      <ProfileButton className='profile-icon' user={sessionUser} />
     </li>
   ) : (
     <ul className='credential-container'>

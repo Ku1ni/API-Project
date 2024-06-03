@@ -47,7 +47,7 @@ function ProfileButton({ user }) {
 
   return (
     <>
-      <button onClick={toggleMenu}>
+      <button className='menu-button' onClick={toggleMenu}>
         <CgProfile className="profile-button" />
       </button>
       <ul className={ulClassName} ref={ulRef}>
@@ -57,7 +57,7 @@ function ProfileButton({ user }) {
           <li>{user.firstName} {user.lastName}</li>
           <li>{user.email}</li>
           <li>
-            <button onClick={logout}>Log Out</button>
+            <button className='logout-button' onClick={logout}>Log Out</button>
           </li>
         </ul>
       ) : (

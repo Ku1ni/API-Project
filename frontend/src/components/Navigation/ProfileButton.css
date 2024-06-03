@@ -2,6 +2,8 @@
 .profile-button {
     font-size: 24px;
     cursor: pointer;
+    background-color: rgb(242, 240, 236);
+    border-radius: 10px;
   }
 
   .profile-dropdown {
@@ -13,7 +15,13 @@
     margin: 0;
     display: flex;
     flex-direction: column;
+    margin-top: 230px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px #ccc;
   }
+  
 
   .profile-dropdown.hidden {
     display: none;
@@ -21,9 +29,28 @@
 
   .profile-dropdown li {
     display: flex;
-    margin-bottom: 8px;
+    margin: 8px;
   }
 
   .profile-dropdown button {
     cursor: pointer;
+  }
+
+  .user-profile-button {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0;
+    background-color: white;
+  }
+  .user-profile-button li {
+    background-color: white;
+  }
+  .logout-button {
+    background-color: white;
+    border:  2px solid #ccc;;
+  }
+
+  .menu-button:hover {
+    box-shadow: 5px 5px 5px #ccc;
   }
