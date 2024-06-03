@@ -11,11 +11,11 @@ function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
 
   const sessionLinks = sessionUser ? (
-    <li>
+    <li className="button-container">
       <ProfileButton user={sessionUser} />
     </li>
   ) : (
-    <ul>
+    <ul className='credential-container'>
       <li>
         <OpenModalButton
           buttonText="Log In"
@@ -32,8 +32,8 @@ function Navigation({ isLoaded }) {
   );
 
   return (
-    <ul style={{ listStyle: "none" }}>
-      <li>
+    <ul className='home-container' style={{ listStyle: "none" }}>
+      <li >
         <NavLink to="/">Home</NavLink>
       </li>
       {isLoaded && sessionLinks}
