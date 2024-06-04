@@ -21,15 +21,15 @@ module.exports = {
     await Spot.bulkCreate([
       {
         ownerId: 1,
-        address: "22 Rowes Pl",
-        city: "Heathsville",
-        state: "Virginia",
+        address: "505 S County Line Rd",
+        city: "Hinsdale",
+        state: "Illinois",
         country: "United States of America",
-        lat: 37.936352,
-        lng: -76.483194,
-        name: "Tranquil Beachfront Getaway on the Chesapeake Bay",
-        description: "Recharge your battery and reset your mind by staying at our waterfront paradise. Spend time with your tribe while relaxing in this beautiful, well appointed home featuring stunning wide water views of the Chesapeake Bay. 'Almost Heaven' is located at the end of a gravel lane, amongst trees, making it the perfect getaway. The expansive patio and beachfront yard offer infinity views of your private beach. Bait a crab pot to catch your own dinner or enjoy a meal from one of the local restaurants.",
-        price: 322,
+        lat: 41.797059,
+        lng: -87.916662,
+        name: "GEORGIAN REVIVAL STYLE",
+        description: "Nestled in the prestigious Southeast Hinsdale neighborhood, this captivating estate is more than just a home; it's an exquisite masterpiece that exemplifies unparalleled luxury. ",
+        price: 1000,
       },
       //https://photos.zillowstatic.com/fp/1315f8e320a2c350a2ec9255fc41e172-cc_ft_384.webp
       //https://www.zillow.com/homedetails/505-S-County-Line-Rd-Hinsdale-IL-60521/3893460_zpid/
@@ -41,7 +41,7 @@ module.exports = {
         country: "United States of America",
         lat: 41.758121,
         lng: -88.090211,
-        name: "Boulevard Mansion",
+        name: "BOULEVARD MANSION",
         description: "As soon as you step inside, you'll be struck by the magnificence of the design and construction, which showcases the finer things in life.",
         price: 900
       },
