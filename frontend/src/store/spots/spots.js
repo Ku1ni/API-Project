@@ -1,11 +1,6 @@
 import { csrfFetch } from "../csrf";
-<<<<<<< HEAD
 import { createSpot, getSpots, getSpot, getCurrentSpot, updateSpot, deleteSpot } from "./spotActions";
 import { CREATE_SPOT, GET_SPOTS, GET_SPOT, UPDATE_SPOT, DELETE_SPOT, GET_CURRENT_SPOT } from "./spotActions";
-=======
-import { createSpot, getSpots, getSpot, getCurrentSpot, updateSpot, deleteSpot } from "./spotsActions";
-import { CREATE_SPOT, GET_SPOTS, GET_SPOT, UPDATE_SPOT, DELETE_SPOT, GET_CURRENT_SPOT } from "./spotsActions";
->>>>>>> 9c2e8f2a979b40cf6da25017df04fed39b35d11d
 
 
 
