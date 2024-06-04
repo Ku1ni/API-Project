@@ -20,7 +20,7 @@ module.exports = {
    await SpotImages.bulkCreate([
     {
       spotId: 1,
-      url: "https://a0.muscache.com/im/pictures/miso/Hosting-663069238504457532/original/416ff6ae-63cb-4886-8379-219fed4b9f0d.jpeg?im_w=720",
+      url: "https://a0.muscache.com/im/pictures/miso/Hosting-663069238504457532/original/416ff6ae-63cb-4886-8379-219fed4b9f0d.jpeg?im_w=1200",
       preview: true
     },
     {
