@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { FaRegStar } from "react-icons/fa";
 import { FaRegStarHalf } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
+import './Landing.css'
 
 export default function Landing() {
   const [tooltipVisible, setTooltipVisible] = useState(false);
@@ -70,7 +71,7 @@ export default function Landing() {
             <div className="spot-details">
               <div className="spot-name">{`${spot.name}`}</div>
               <div className="spot-location">{`${spot.city}, ${spot.state}`}</div>
-              <div className="spot-price">{`${spot.price}`} Per Night</div>
+              <div className="spot-price">{`$${spot.price}`} Night</div>
               <div className="spot-rating">{formatRating(spot)}</div>
             </div>
             {tooltipVisible && (
