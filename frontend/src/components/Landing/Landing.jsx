@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { FaRegStar } from "react-icons/fa";
 import { FaRegStarHalf } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
+import './Landing.css'
 
 export default function Landing() {
   const [tooltipVisible, setTooltipVisible] = useState(false);
