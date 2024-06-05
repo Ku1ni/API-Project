@@ -19,17 +19,15 @@ export const createASpot = (spot, images) => async (dispatch) => {
 
       const newSpot = await response.json()
 
-      await Promise.all(
-        imgURLs.map((image) =>
-          csrfFetch(`/api/spots/${newSpot.id}/images`, {
+      for (const image of imgURLs) {
+        await csrfFetch(`/api/spots/${newSpot.id}/images`, {
             method: "POST",
             body: JSON.stringify({
-              url: image.url,
-              preview: true
+                url: image.url,
+                preview: true
             })
-          })
-        )
-      )
+        });
+    }
 
       await dispatch(createSpot(newSpot))
 
@@ -43,24 +41,45 @@ export const createASpot = (spot, images) => async (dispatch) => {
 
 export const getAllSpots = () => async(dispatch) => {
     let response = await csrfFetch('/api/spots')
+    if(response.ok){
     let data = await response.json();
     dispatch(getSpots(data))
     return response
+  }else {
+    const error = await response.json()
+    console.log('ERROR', error)
+    return error
+  }
 }
 
 
 export const getOneSpot = (spotId) => async(dispatch) => {
     let response = await csrfFetch(`/api/spots/${spotId}`)
+
+    
+    if(response.ok){
     let data = await response.json()
     dispatch(getSpot(data))
     return response
+  }else {
+    const error = await response.json()
+    console.log('ERROR', error)
+    return error
+  }
 }
 
 export const currentSpot = () => async(dispatch) => {
     let response = await csrfFetch('/api/spots/current')
+
+    if(response.ok){
     let data = await response.json()
     dispatch(getCurrentSpot(data))
     return response
+  }else {
+    const error = await response.json()
+    console.log('ERROR', error)
+    return error
+  }
 }
 
 export const updateCurrentSpot = (spot, spotId) => async(dispatch) => {
@@ -71,18 +90,31 @@ export const updateCurrentSpot = (spot, spotId) => async(dispatch) => {
         },
         body: JSON.stringify(spot)
     })
+    if(response.ok){
     let update = await response.json()
     await dispatch(updateSpot(update))
     return update
+  }else {
+    const error = await response.json()
+    console.log('ERROR', error)
+    return error
+  }
 }
 
 export const deleteCurrentSpot = (spotId) => async(dispatch) => {
     let response = await csrfFetch(`/api/spots/${spotId}`,{
         method: 'DELETE',
     })
+    if(response.ok){
     await dispatch(deleteSpot(spotId))
     response.json('Successfully Deleted')
+  }else {
+    const error = await response.json()
+    console.log('ERROR', error)
+    return error
+  }
 }
+
 
 function spotsReducer(state ={}, action){
     switch(action.type) {

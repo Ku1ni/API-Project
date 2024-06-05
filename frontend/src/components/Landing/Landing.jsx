@@ -1,21 +1,20 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllSpots } from "../../store/spots/spots";
-import { NavLink } from 'react-router-dom';
-import { FaRegStar } from "react-icons/fa";
-import { FaRegStarHalf } from "react-icons/fa";
-import { FaStar } from "react-icons/fa";
-import './Landing.css'
+import { useNavigate } from "react-router-dom";
+import { FaRegStar, FaRegStarHalf, FaStar } from "react-icons/fa";
+import formatDecimal from "../../store/helpers/ratingHelper";
+import './Landing.css';
 
 export default function Landing() {
-  const [tooltipVisible, setTooltipVisible] = useState(false);
-  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
-  const [tooltipText, setTooltipText] = useState("");
-
+  const [selectedSpot, setSelectedSpot] = useState(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const navigate = useNavigate()
   const dispatch = useDispatch();
   let spots = useSelector(state => state.spots);
 
   spots = Object.values(spots);
+  console.log("🚀 ~ Landing ~ spots:", spots)
 
   useEffect(() => {
     dispatch(getAllSpots());
@@ -28,13 +27,13 @@ export default function Landing() {
       const starImages = [];
 
       for (let i = 0; i < wholeStars; i++) {
-        starImages.push(<FaStar />);
+        starImages.push(<FaStar key={i} />);
       }
 
       if (fractionalPart >= 0.25 && fractionalPart < 0.75) {
-        starImages.push(<FaRegStarHalf />);
+        starImages.push(<FaRegStarHalf key="half-star" />);
       } else if (fractionalPart >= 0.75) {
-        starImages.push(<FaRegStar />);
+        starImages.push(<FaRegStar key="reg-star" />);
       }
 
       return starImages;
@@ -43,52 +42,52 @@ export default function Landing() {
     }
   }
 
-  function handleSpotMouseEnter(event, spot) {
-    setTooltipVisible(true);
-    setTooltipPosition({ x: event.clientX, y: event.clientY });
-    setTooltipText(`Make the ${spot.name} your home away from home`);
+  function handleSpotHover(spot) {
+    setSelectedSpot(spot);
+    setIsHovered(true);
   }
 
-  function handleSpotMouseLeave() {
-    setTooltipVisible(false);
-    setTooltipPosition({ x: 0, y: 0 });
-    setTooltipText("");
+  function handleSpotHoverOut() {
+    setSelectedSpot(null);
+    setIsHovered(false);
   }
+
+  const handleSpotClick = (spot) => {
+    navigate(`/spots/${spot.id}`)
+  };
 
   return (
     <>
       <div className="spot-container">
         {spots.map((spot) => (
-          <div className="title" key={spot.id}>
-            <NavLink to={`spots/${spot.id}`} />
+          <div className="title" key={spot.id} onClick={() => handleSpotClick(spot)}>
+
             <img
               className="title-image"
-              src={spot.previewImage}
+              src={spot?.previewImage}
+
+
               alt={`Preview for ${spot.name}`}
-              onMouseEnter={(event) => handleSpotMouseEnter(event, spot)}
-              onMouseLeave={handleSpotMouseLeave}
+              onMouseEnter={() => handleSpotHover(spot)}
+              onMouseLeave={handleSpotHoverOut}
             />
             <div className="spot-details">
               <div className="spot-name">{`${spot.name}`}</div>
               <div className="spot-location">{`${spot.city}, ${spot.state}`}</div>
               <div className="spot-price">{`${spot.price}`} Per Night</div>
               <div className="spot-rating">{formatRating(spot)}</div>
+              <div className="spot-decimal">{formatDecimal(spot)}</div>
             </div>
-            {tooltipVisible && (
-              <div
-                className="tooltip"
-                style={{
-                  top: tooltipPosition.y,
-                  left: tooltipPosition.x,
-                }}
-                onClick={handleSpotMouseLeave}
-              >
-                {tooltipText}
-              </div>
-            )}
           </div>
         ))}
       </div>
+      {isHovered && selectedSpot && (
+        <div className="popout-box">
+          <div className="popout-content">
+            <h3>{selectedSpot.name}</h3>
+          </div>
+        </div>
+      )}
     </>
   );
 }

@@ -2,11 +2,30 @@
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
-    gap: 50px;
-
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
 }
 
 .title-image {
-    width: 500px;
+    width: 400px;
+    height: 400px;
     border-radius: 20px;
 }
+.popout-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  .popout-content {
+    display: flex;
+    text-align: center;
+    width: fit-content;
+  }

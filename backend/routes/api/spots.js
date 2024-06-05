@@ -6,7 +6,6 @@ const { Spot, SpotImages, Review } = require('../../db/models');
 const router = express.Router();
 
 
-
 //Middleware
 const validateSpotCreation = (req, res, next) => {
   const { address, city, state, country, lat, lng, name, description, price } = req.body;
@@ -176,6 +175,7 @@ router.get("/", async (req, res) => {
 
 
 
+
       const newSpots = spots.map((spot) => {
         return {
           id: spot.id,
@@ -206,14 +206,20 @@ router.get("/", async (req, res) => {
     const spot = await Spot.findByPk(req.params.spotId,{
       include: 'previewImage'
     });
+    const previewImage = await SpotImages.findOne({
+      where: { spotId: spot.id, preview: true },
+      attributes: ["url"]
+    });
 
+    spot.previewImage = previewImage ? previewImage.url : null;
 
     if(spot) {
       const response = {
         ...spot.dataValues,
+        previewImage:spot.previewImage,
         createdAt: dateFormat(spot.createdAt),
         updatedAt: dateFormat(spot.updatedAt),
-        previewImage: spot.previewImage ? spot.previewImage.url : null
+        // previewImage: spot.previewImage ? spot.previewImage.url : null
       }
       return res.json(response)
     }else {
@@ -324,5 +330,19 @@ router.get("/", async (req, res) => {
     return res.json({ message: 'Successfully deleted' });
   })
 
+
+router.get('/:spotId', async (req, res) => {
+  const spotId = req.params.spotId;
+
+  const spot = await Spot.findByPk(spotId, {
+    include: [{ model: SpotImages, as: 'SpotImages' }]
+  });
+
+  if (!spot) {
+    return res.status(404).json({ "message": "Spot couldn't be found" });
+  }
+
+  res.json(spot);
+});
 
 module.exports = router;

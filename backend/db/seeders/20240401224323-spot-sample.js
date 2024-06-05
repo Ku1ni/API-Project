@@ -21,15 +21,15 @@ module.exports = {
     await Spot.bulkCreate([
       {
         ownerId: 1,
-        address: "505 S County Line Rd",
-        city: "Hinsdale",
-        state: "Illinois",
+        address: "22 Rowes Pl",
+        city: "Heathsville",
+        state: "Virginia",
         country: "United States of America",
-        lat: 41.797059,
-        lng: -87.916662,
-        name: "GEORGIAN REVIVAL STYLE",
-        description: "Nestled in the prestigious Southeast Hinsdale neighborhood, this captivating estate is more than just a home; it's an exquisite masterpiece that exemplifies unparalleled luxury. ",
-        price: 1000,
+        lat: 37.936352,
+        lng: -76.483194,
+        name: "Tranquil Beachfront Getaway on the Chesapeake Bay",
+        description: "Recharge your battery and reset your mind by staying at our waterfront paradise.",
+        price: 322,
       },
       //https://photos.zillowstatic.com/fp/1315f8e320a2c350a2ec9255fc41e172-cc_ft_384.webp
       //https://www.zillow.com/homedetails/505-S-County-Line-Rd-Hinsdale-IL-60521/3893460_zpid/

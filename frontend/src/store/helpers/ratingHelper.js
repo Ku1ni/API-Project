@@ -2,14 +2,14 @@
 // import { FaRegStarHalf } from "react-icons/fa";
 // import { FaStar } from "react-icons/fa";
 
-// function formatRating(spot) {
-//     if (spot?.avgRating !== 0) {
-//       const roundedRating = Math.round(spot.avgRating * 10) / 10;
-//       return `${roundedRating} stars`;
-//     } else {
-//       return "New";
-//     }
-//   }
+function formatDecimal(spot) {
+    if (spot?.avgRating !== 0) {
+      const roundedRating = Math.round(spot.avgRating * 10) / 10;
+      return `${roundedRating} stars`;
+    } else {
+      return "New";
+    }
+  }
 
 
 
@@ -17,4 +17,4 @@
 
 
 
-  // export default formatRating;
+  export default formatDecimal;

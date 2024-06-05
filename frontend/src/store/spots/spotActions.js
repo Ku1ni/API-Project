@@ -1,9 +1,9 @@
 export const CREATE_SPOT = 'spots/create_spot'
 export const GET_SPOTS = 'spots/get_spots'
 export const GET_SPOT = 'spots/get_spot'
-export const UPDATE_SPOT = "spots/update"
-export const DELETE_SPOT = "spots/delete_spot"
-export const GET_CURRENT_SPOT = "spots/get_current_spot"
+export const UPDATE_SPOT = 'spots/update'
+export const DELETE_SPOT = 'spots/delete_spot'
+export const GET_CURRENT_SPOT = 'spots/get_current_spot'
 
 
 export const createSpot = (spot) => ({
