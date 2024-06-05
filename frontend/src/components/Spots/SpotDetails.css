@@ -28,7 +28,7 @@
     grid-template-rows: repeat(2, auto);
     gap: 10px;
 }
-.spot-image {
+.small-spot-image {
     width: 100%;
     height: auto;
     border-radius: 20px;

@@ -1,6 +1,6 @@
 import { csrfFetch } from "../csrf";
 import { createSpot, getSpots, getSpot, getCurrentSpot, updateSpot, deleteSpot } from "./spotActions";
-import { CREATE_SPOT, GET_SPOTS, GET_SPOT, UPDATE_SPOT, DELETE_SPOT, GET_CURRENT_SPOT } from "./spotActions";
+import { CREATE_SPOT, GET_SPOTS, GET_SPOT, UPDATE_SPOT, DELETE_SPOT, GET_CURRENT_SPOT} from "./spotActions";
 
 
 
@@ -56,7 +56,6 @@ export const getAllSpots = () => async(dispatch) => {
 export const getOneSpot = (spotId) => async(dispatch) => {
     let response = await csrfFetch(`/api/spots/${spotId}`)
 
-    
     if(response.ok){
     let data = await response.json()
     dispatch(getSpot(data))
@@ -115,6 +114,19 @@ export const deleteCurrentSpot = (spotId) => async(dispatch) => {
   }
 }
 
+// export const getImages = (spotId) => async(dispatch) => {
+//   const response = await csrfFetch(`/api/spots/${spotId}`);
+//   if(response.ok){
+//     const data = await response.json()
+//     dispatch(getSpotImages(data))
+
+//   }else {
+//     const error = await response.json()
+//     console.log('ERROR', error)
+//     return error
+//   }
+// }
+
 
 function spotsReducer(state ={}, action){
     switch(action.type) {
@@ -128,7 +140,7 @@ function spotsReducer(state ={}, action){
             return newState
         }
         case GET_SPOT: {
-            let newState = {[action.spot.id]: action.spot}
+            let newState = { [action.spot.id]: action.spot}
             return newState
 
         }
@@ -148,6 +160,16 @@ function spotsReducer(state ={}, action){
             delete newState[action.spotId]
             return newState
         }
+        // case GET_SPOT_IMAGES: {
+        //   const {spotId, images} = action
+        //   return {
+        //     ...state,
+        //     [spotId]: {
+        //       ...state[spotId],
+        //       images:images
+        //     }
+        //   }
+        // }
         default:
             return state
     }

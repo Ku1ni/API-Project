@@ -4,7 +4,7 @@ export const GET_SPOT = 'spots/get_spot'
 export const UPDATE_SPOT = 'spots/update'
 export const DELETE_SPOT = 'spots/delete_spot'
 export const GET_CURRENT_SPOT = 'spots/get_current_spot'
-
+// export const GET_SPOT_IMAGES = 'spots/get_spot-images'
 
 export const createSpot = (spot) => ({
         type: CREATE_SPOT,
@@ -34,3 +34,8 @@ export const deleteSpot = (spot) => ({
     type: DELETE_SPOT,
     spot
 })
+
+// export const getSpotImages = (spotId) => ({
+//     type: GET_SPOT_IMAGES,
+//     spotId
+// })

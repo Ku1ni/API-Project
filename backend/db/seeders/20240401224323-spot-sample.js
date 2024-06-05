@@ -31,13 +31,11 @@ module.exports = {
         description: "Recharge your battery and reset your mind by staying at our waterfront paradise.",
         price: 322,
       },
-      //https://photos.zillowstatic.com/fp/1315f8e320a2c350a2ec9255fc41e172-cc_ft_384.webp
-      //https://www.zillow.com/homedetails/505-S-County-Line-Rd-Hinsdale-IL-60521/3893460_zpid/
       {
         ownerId: 1,
         address: "7S719 Donwood Dr",
-        city: "Naperville",
-        state: "Illinois",
+        city: "Chincoteague",
+        state: "Virginia",
         country: "United States of America",
         lat: 41.758121,
         lng: -88.090211,
