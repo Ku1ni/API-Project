@@ -23,6 +23,11 @@ module.exports = {
       url: "https://a0.muscache.com/im/pictures/miso/Hosting-663069238504457532/original/416ff6ae-63cb-4886-8379-219fed4b9f0d.jpeg?im_w=1200",
       preview: true
     },
+      {
+        spotId: 1,
+        url: "https://a0.muscache.com/im/pictures/miso/Hosting-663069238504457532/original/ee6c44df-4356-45cd-b980-3300f26fba45.jpeg?im_w=1440",
+        preview: true
+      },
     {
       spotId: 2,
       url: "https://photos.zillowstatic.com/fp/62a9d35288050ded374002f66e4118ba-cc_ft_576.webp",
@@ -42,7 +47,7 @@ module.exports = {
       spotId: 5,
       url: "https://photos.zillowstatic.com/fp/28f489b1b4658a67d2b3af1cdd127001-cc_ft_768.webp",
       preview: true
-    },
+    }
    ], { validate: true})
   },
 

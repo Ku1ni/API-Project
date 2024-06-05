@@ -1,0 +1,39 @@
+.page-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.header {
+    grid-column: span 2;
+
+}
+
+.details-container{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin: 50px;
+    align-items: start;
+}
+
+.large-spot-image {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+}
+.small-image {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 10px;
+}
+.spot-image {
+    width: 100%;
+    height: auto;
+    border-radius: 20px;
+}
+
+.price-info {
+    grid-column: span 2;
+}
