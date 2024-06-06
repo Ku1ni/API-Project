@@ -14,7 +14,7 @@ export default function Landing() {
   let spots = useSelector(state => state.spots);
 
   spots = Object.values(spots);
-  console.log("🚀 ~ Landing ~ spots:", spots)
+
 
   useEffect(() => {
     dispatch(getAllSpots());
@@ -74,7 +74,7 @@ export default function Landing() {
             <div className="spot-details">
               <div className="spot-name">{`${spot.name}`}</div>
               <div className="spot-location">{`${spot.city}, ${spot.state}`}</div>
-              <div className="spot-price">{`${spot.price}`} Per Night</div>
+              <div className="spot-price">{`$${spot.price}`} Night</div>
               <div className="spot-rating">{formatRating(spot)}</div>
               <div className="spot-decimal">{formatDecimal(spot)}</div>
             </div>
