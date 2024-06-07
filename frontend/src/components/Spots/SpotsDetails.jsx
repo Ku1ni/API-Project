@@ -28,10 +28,10 @@ export default function SpotsDetails() {
 
   }, [dispatch, spotId]);
 
-  useEffect(() => {
-    console.log('selectedSpot:', selectedSpot);
-    console.log('spotReviews:', spotReviews);
-  }, [selectedSpot, spotReviews]);
+  // useEffect(() => {
+  //   console.log('selectedSpot:', selectedSpot);
+  //   console.log('spotReviews:', spotReviews);
+  // }, [selectedSpot, spotReviews]);
 
 
   if (!selectedSpot) return null;
@@ -55,7 +55,7 @@ export default function SpotsDetails() {
 
     return starImages;
   }
-  console.log('SESSIONUSER', sessionUser.firstName)
+  // console.log('SESSIONUSER', sessionUser.firstName)
 
   return (
     <>

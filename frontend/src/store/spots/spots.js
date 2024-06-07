@@ -1,7 +1,7 @@
 import { csrfFetch } from "../csrf";
 import { createSpot, getSpots, getSpot, getCurrentSpot, updateSpot, deleteSpot } from "./spotActions";
 import { CREATE_SPOT, GET_SPOTS, GET_SPOT, UPDATE_SPOT, DELETE_SPOT, GET_CURRENT_SPOT} from "./spotActions";
-import {getSpotReviews} from '../reviews/reviews'
+// import {getSpotReviews} from '../reviews/reviews'
 
 
 
@@ -17,7 +17,7 @@ export const createASpot = (spot, images) => async (dispatch) => {
 
       if (response.ok) {
         const newSpot = await response.json()
-        console.log("🚀 ~ createASpot ~ newSpot:", newSpot)
+        // console.log("🚀 ~ createASpot ~ newSpot:", newSpot)
 
 
       for (const image of imgURLs) {
@@ -40,7 +40,7 @@ export const createASpot = (spot, images) => async (dispatch) => {
   // }
 
       await dispatch(createSpot(newSpot))
-      await dispatch(getSpotReviews(newSpot.id))
+      // await dispatch(getSpotReviews(newSpot.id))
 
       return newSpot
       } else {
