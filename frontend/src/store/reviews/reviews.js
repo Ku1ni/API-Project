@@ -8,12 +8,12 @@ const getReviews = (reviews, spotId) => ({
     spotId
 })
 
-export const getSpotReviews = (spotId) => {
+export const getSpotReviews = (spotId, reviews) => {
     return async (dispatch) => {
         const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
         if(response.ok){
-        const data = await response.json()
-        dispatch(getReviews(data));
+        const data = await response.json(reviews)
+        dispatch(getReviews(data, spotId));
         return data
         }else {
             const error = await response.json()
@@ -27,10 +27,17 @@ function reviewsReducer(state = initialState, action){
     switch(action.type){
         case GET_SPOT_REVIEWS: {
             const { spotId, reviews } = action;
-            return {
-                ...state,
-                [spotId]: reviews
-            };
+            if (reviews.length === 0) {
+                return {
+                    ...state,
+                    [spotId]: 'new'
+                };
+            } else {
+                return {
+                    ...state,
+                    [spotId]: reviews
+                };
+            }
 
             }
 

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { CgProfile } from 'react-icons/cg';
+import { NavLink } from 'react-router-dom';
 
 import * as sessionActions from '../../store/session';
 // import OpenModalButton from '../OpenModalButton/OpenModelButton';
@@ -48,7 +49,9 @@ function ProfileButton({ user }) {
 
   return (
     <>
-
+      <NavLink to="spots/new">
+        <button className="create-spot-btn">Create a Spot</button>
+        </NavLink>
       <button className='menu-button' onClick={toggleMenu}>
         <CgProfile className="profile-button" />
       </button>

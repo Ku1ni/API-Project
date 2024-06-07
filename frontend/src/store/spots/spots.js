@@ -1,23 +1,24 @@
 import { csrfFetch } from "../csrf";
 import { createSpot, getSpots, getSpot, getCurrentSpot, updateSpot, deleteSpot } from "./spotActions";
 import { CREATE_SPOT, GET_SPOTS, GET_SPOT, UPDATE_SPOT, DELETE_SPOT, GET_CURRENT_SPOT} from "./spotActions";
+import {getSpotReviews} from '../reviews/reviews'
 
 
 
 export const createASpot = (spot, images) => async (dispatch) => {
-    try {
+
       const imgURLs = Object.values(images);
+      // const review = Object.values(reviews)
       const response = await csrfFetch("/api/spots", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(spot)
       })
 
-      if (response.status !== 201) {
-        throw new Error("Spot could not be created")
-      }
+      if (response.ok) {
+        const newSpot = await response.json()
+        console.log("🚀 ~ createASpot ~ newSpot:", newSpot)
 
-      const newSpot = await response.json()
 
       for (const image of imgURLs) {
         await csrfFetch(`/api/spots/${newSpot.id}/images`, {
@@ -29,13 +30,22 @@ export const createASpot = (spot, images) => async (dispatch) => {
         });
     }
 
+  //   if (review.length > 0) {
+  //     for (const r of review) {
+  //         await csrfFetch(`/api/spots/${newSpot.id}/reviews`, {
+  //             method: "POST",
+  //             body: JSON.stringify(r)
+  //         });
+  //     }
+  // }
+
       await dispatch(createSpot(newSpot))
+      await dispatch(getSpotReviews(newSpot.id))
 
       return newSpot
-    } catch (error) {
-      console.error("Error creating spot:", error)
-      throw error
-    }
+      } else {
+        throw new Error("Spot could not be created")
+      }
   };
 
 

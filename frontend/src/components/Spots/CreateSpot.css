@@ -1,0 +1,82 @@
+.container {
+    display: flex;
+    justify-content: center;
+
+}
+input, textarea{
+    border-radius: 5px;
+}
+
+.create-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.new-spot-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 100px;
+    padding: 30px;
+    gap: 20px;
+    width: 25%;
+    /* background-color: #f9f9f9; */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: url('../../assets/images/1179383.jpg')  no-repeat center center;
+    background-size: cover;
+}
+
+.new-spot-container h3, h2{
+    border-bottom: 1px black solid;
+    
+}
+
+.new-spot-container p {
+    font-style: italic;
+}
+
+.location-section label {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+}
+
+.location-section input {
+    margin-bottom: 10px;
+}
+
+#description {
+    display: flex;
+    width: 100%;
+}
+#name {
+    display: flex;
+    width: 100%;
+}
+
+#price {
+    display: flex;
+    width: 100%;
+}
+
+.image-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.image-section input {
+    display: flex;
+    width: 100%;
+}
+
+.submit-button {
+    display: flex;
+    margin-top: 20px;
+    padding: 15px;
+    border-radius: 10px;
+}

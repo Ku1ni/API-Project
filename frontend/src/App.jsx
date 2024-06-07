@@ -5,7 +5,7 @@ import Navigation from './components/Navigation/Navigation';
 import * as sessionActions from './store/session';
 import Landing from './components/Landing/Landing';
 import SpotsDetails from './components/Spots/SpotsDetails';
-
+import CreateSpot from './components/Spots/CreateSpot';
 function Layout() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -43,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: '/:spotId/images',
         element: <SpotsDetails />
+      },
+      {
+        path: "spots/new",
+        element: <CreateSpot />,
       }
     ]
   }

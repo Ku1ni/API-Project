@@ -38,9 +38,12 @@ function Navigation({ isLoaded }) {
     <ul className='home-container' style={{ listStyle: "none" }}>
       <li className="home-button">
         <NavLink to="/"><FaUmbrellaBeach size={50} /></NavLink>
+
       </li>
+
       {isLoaded && sessionLinks}
     </ul>
+
 
     </div>
   );
