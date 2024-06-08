@@ -77,8 +77,16 @@ export default function UpdateSpot(){
             price
         };
         let updatedSpot = await dispatch(updateCurrentSpot(newSpot, spotId));
-        await dispatch(getOneSpot(updatedSpot));
-        navigate(`/spots/${updatedSpot.id}`);
+        console.log("🚀 ~ onSubmit ~ updateSpot:", updatedSpot.id)
+
+
+
+        if (updatedSpot && updatedSpot.id) {
+            await dispatch(getOneSpot(updatedSpot.id));
+            navigate(`/spots/${updatedSpot.id}`);
+        } else {
+            console.error("Failed to update spot");
+        }
     };
 
     return(

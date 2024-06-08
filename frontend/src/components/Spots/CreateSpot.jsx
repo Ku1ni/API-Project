@@ -9,6 +9,7 @@ function CreateSpot() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+
     const [address, setAddress] = useState('');
     const [city, setCity] = useState('');
     const [state, setState] = useState('');
@@ -23,6 +24,7 @@ function CreateSpot() {
     const [image3, setImage3] = useState({ url: "", preview: true });
     const [image4, setImage4] = useState({ url: "", preview: true });
     const [image5, setImage5] = useState({ url: "", preview: true });
+
 
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [error, setError] = useState({});
@@ -86,7 +88,10 @@ function CreateSpot() {
             description,
             price
         };
+
+
         let newSpot = await dispatch(createASpot(spot, images));
+console.log("🚀 ~ onSubmit ~ newSpot:", newSpot.id)
         await dispatch(getOneSpot(newSpot.id));
         navigate(`/spots/${newSpot.id}`);
     };

@@ -90,6 +90,22 @@
     grid-column: span 2;
 }
 
+.inside-reviews {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+}
+
+.inside-reviews li, span {
+    padding: 10px;
+}
+
+.user {
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+}
+
 .reviews-container {
     display: grid;
     grid-template-columns: 1fr;
@@ -109,6 +125,7 @@
     border: 1px solid black;
     border-radius: 10px;
     gap: 20px;
+    padding: 10px;
 }
 
 

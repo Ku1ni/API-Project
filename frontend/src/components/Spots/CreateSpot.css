@@ -75,6 +75,11 @@ input, textarea{
     width: 100%;
 }
 
+.image-section img {
+    max-width: 300px;
+    max-height: 300px;
+}
+
 .submit-button {
     display: flex;
     margin-top: 20px;

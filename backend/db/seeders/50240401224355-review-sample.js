@@ -24,36 +24,6 @@ module.exports = {
       stars: 4
     },
     {
-      userId: 2,
-      spotId: 1,
-      review: "The spot was decent, but could use some improvements.",
-      stars: 3
-    },
-    {
-      userId: 3,
-      spotId: 1,
-      review: "Unfortunately, this spot didn't meet my expectations. It was not well-maintained.",
-      stars: 5
-    },
-    {
-      userId: 4,
-      spotId: 2,
-      review: "I had a pleasant experience at this spot. Clean and comfortable.",
-      stars: 4
-    },
-    {
-      userId: 5,
-      spotId: 2,
-      review: "The spot was alright, but nothing extraordinary.",
-      stars: 3
-    },
-    {
-      userId: 6,
-      spotId: 2,
-      review: "This spot exceeded my expectations! Wonderful views and cozy atmosphere.",
-      stars: 5
-    },
-    {
       userId: 7,
       spotId: 3,
       review: "Great spot with fantastic amenities! Highly recommend.",

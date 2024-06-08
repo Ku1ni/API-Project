@@ -2,7 +2,7 @@ const express = require('express');
 const {requireAuth} = require('../../utils/auth');
 const { Op } = require('sequelize');
 const { dateFormat } = require('../../utils/date');
-const { Spot, SpotImages, Review } = require('../../db/models');
+const { Spot, SpotImages, Review, User } = require('../../db/models');
 const router = express.Router();
 
 
@@ -170,13 +170,18 @@ router.get("/", async (req, res) => {
       where: {
         ownerId: userId
       },
-      include: 'previewImage'
-
+      include: {
+        model: SpotImages,
+        as: 'previewImage',
+        attributes: ['url'],
+        limit: 1
+      }
     });
 
 
 
-      const newSpots = spots.map((spot) => {
+    const newSpots = spots.map((spot) => {
+      // const previewImage = spot.previewImage ? spot.previewImage.url : null;
         return {
           id: spot.id,
           ownerId: spot.ownerId,
@@ -192,7 +197,7 @@ router.get("/", async (req, res) => {
           createdAt: dateFormat(spot.createdAt),
           updatedAt: dateFormat(spot.updatedAt),
           avgRating: spot.avgRating || 0,
-          previewImage: spot.previewImage ? spot.previewImage.url : null
+          previewImage: spot.previewImage
         }
       })
 
@@ -203,7 +208,7 @@ router.get("/", async (req, res) => {
 
 // Get details of a Spot from an id
   router.get('/:spotId', requireAuth, async (req, res) => {
-    
+
     const spot = await Spot.findByPk(req.params.spotId,{
       include: 'previewImage'
     });
@@ -213,6 +218,8 @@ router.get("/", async (req, res) => {
       where: { spotId: spot.id },
     });
     spot.SpotImages = spotImage;
+
+    let owner = await User.findByPk(spot.ownerId)
     if(spot) {
       const response = {
         // ...spot.dataValues,
@@ -220,21 +227,25 @@ router.get("/", async (req, res) => {
         // updatedAt: dateFormat(spot.updatedAt),
         // previewImage: spot.previewImage ? spot.previewImage.url : null
         id: spot.id,
-    ownerId: spot.ownerId,
-    address: spot.address,
-    city: spot.city,
-    state: spot.state,
-    country: spot.country,
-    lat: +spot.lat,
-    lng: +spot.lng,
-    name: spot.name,
-    description: spot.description,
-    price: +spot.price,
-    createdAt: dateFormat(spot.createdAt),
-    updatedAt: dateFormat(spot.updatedAt),
-    avgRating: spot.avgRating || 0,
-    SpotImages: spot.SpotImages,
-
+        ownerId: spot.ownerId,
+        address: spot.address,
+        city: spot.city,
+        state: spot.state,
+        country: spot.country,
+        lat: +spot.lat,
+        lng: +spot.lng,
+        name: spot.name,
+        description: spot.description,
+        price: +spot.price,
+        createdAt: dateFormat(spot.createdAt),
+        updatedAt: dateFormat(spot.updatedAt),
+        avgRating: spot.avgRating || 0,
+        SpotImages: spot.SpotImages,
+        Owner: {
+          id: +spot.ownerId,
+          firstName: owner ? owner.firstName : null,
+          lastName: owner ? owner.lastName : null
+        }
       }
       return res.json(response)
     }else {

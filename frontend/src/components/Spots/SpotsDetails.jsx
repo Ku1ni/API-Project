@@ -2,48 +2,48 @@ import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { FaRegStar, FaRegStarHalf, FaStar } from "react-icons/fa";
-import { getAllSpots } from "../../store/spots/spots";
+import { LuDot } from "react-icons/lu";
+import { getOneSpot } from "../../store/spots/spots";
 import { getSpotReviews } from "../../store/reviews/reviews";
-import formatDecimal from "../../store/helpers/FormatDecimal";
-// import spotImages from "../../store/helpers/images";
+// import formatDecimal from "../../store/helpers/FormatDecimal";
 import OpenModalButton from "../OpenModalButton/OpenModelButton";
 import './SpotDetails.css'
 
 export default function SpotsDetails() {
   const { spotId } = useParams();
   const dispatch = useDispatch();
-  const sessionUser = useSelector((state) => state.session.user);
-  const spots = useSelector((state) => state.spots);
-  // const reviewStore = useSelector((state) => state.reviews)
-  const spotReviews = useSelector((state) => state.reviews[spotId]) || [];
-
+  // const sessionUser = useSelector((state) => state.session.user);
+  const spots = useSelector((state) => state.spots);//spot
   const selectedSpot = spots[spotId]
+ const spotReviews = useSelector((state) => state.reviews[spotId]);
+ let averageStars;
 
-  // const useEffectHelper = async (a) => {
-  //     await dispatch(getAllSpots(a));
-  //     await dispatch(getSpotReviews(spotId))
-  // }
-  const searchId = Math.ceil(parseInt(spotId)/20)
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(getAllSpots(searchId));
-      await dispatch(getSpotReviews(spotId))
-    }
-    if(spotId){
-        fetchData()
-    }
+  function ratings(spotReviews) {
+if (spotReviews && spotReviews.length > 0) {
+   const totalStars = spotReviews.reduce((acc, review) => acc + review.stars, 0);
+   averageStars = totalStars / spotReviews.length;
+   return averageStars.toFixed(1);
+ } else {
+   return 'New';
+ }
+ }
 
 
-  }, [dispatch, searchId, spotId]);
 
-  // useEffect(() => {
-  //   console.log('selectedSpot:', selectedSpot);
-  //   console.log('spotReviews:', spotReviews);
-  // }, [selectedSpot, spotReviews]);
+ useEffect(() => {
+
+      dispatch(getOneSpot(spotId));
+      dispatch(getSpotReviews(spotId))
+
+  }, [dispatch, spotId]);
 
 
-  function formatRating(rating) {
+
+
+
+
+
+function formatRating(rating) {
     const wholeStars = Math.floor(rating);
     const fractionalPart = rating - wholeStars;
     const starImages = [];
@@ -57,11 +57,12 @@ export default function SpotsDetails() {
     } else if (fractionalPart >= 0.75) {
       starImages.push(<FaRegStar key="reg-star" />);
     }
-
     return starImages;
   }
-  // console.log('SESSIONUSER', sessionUser.firstName)
-  if (!selectedSpot) return null;
+
+
+
+ if (!selectedSpot) return null;
   return (
     <>
         <div className="page-container">
@@ -73,38 +74,38 @@ export default function SpotsDetails() {
                         <h3>{`${selectedSpot.city}, ${selectedSpot.state}, ${selectedSpot.country}`}</h3>
                     </header>
 
-                    {/* <div className="large-image">
+                    <div className="large-image">
                         <img
                             className="large-spot-image"
-                            src={images[0]}
+                            src={selectedSpot?.SpotImages?.[0].url}
                             alt={`Preview for ${selectedSpot.name}`}
                         />
                     </div>
                     <div className="small-image">
                     <img
                         className="small-spot-image"
-                        src={images[1]}
+                        src={selectedSpot?.SpotImages?.[1].url}
                         alt={`Preview for ${selectedSpot.name}`}
                     />
                     <img
                         className="small-spot-image"
-                        src={images[2]}
+                        src={selectedSpot?.SpotImages?.[2].url}
                         alt={`Preview for ${selectedSpot.name}`}
                     />
                     <img
                         className="small-spot-image"
-                        src={images[3]}
+                        src={selectedSpot?.SpotImages?.[3].url}
                         alt={`Preview for ${selectedSpot.name}`}
                     />
                     <img
                         className="small-spot-image"
-                        src={images[4]}
+                        src={selectedSpot?.SpotImages?.[4].url}
                         alt={`Preview for ${selectedSpot.name}`}
                     />
-                    </div> */}
+                    </div>
                     <div className="host-container">
                     <div className="host">
-                      <h3>Hosted by {sessionUser.firstName} {sessionUser.lastName}</h3>
+                    <h3>Hosted by {selectedSpot.Owner ? `${selectedSpot.Owner.firstName} ${selectedSpot.Owner.lastName}` : 'Unknown'}</h3>
                     </div>
                     <div className="description-container">
                       {selectedSpot.description}
@@ -114,7 +115,16 @@ export default function SpotsDetails() {
                       <div className="price-container">
                         <div className="price-info">
                             <h2 className="price">${selectedSpot.price} Night</h2>
-                            <h3 className="ratings">{formatDecimal(selectedSpot)} out of 5</h3>
+
+                            <div className="ratings">
+                            <h3>
+                              <FaStar />{ratings(spotReviews)}
+                              <LuDot className="dot" />
+                              {spotReviews && spotReviews.length !== undefined ? (
+                                spotReviews.length === 1 ? '1 review' : `${spotReviews.length} reviews`
+                              ) : 'Loading reviews...'}
+                            </h3>
+                            </div>
                             <div className="button-container">
                             <OpenModalButton
 
@@ -126,20 +136,33 @@ export default function SpotsDetails() {
                       </div>
                     <div className="reviews-ratings">
                     <div className="ratings-container">
-                      <h2>{formatDecimal(selectedSpot)} out of 5</h2>
+                    {spotReviews && spotReviews.length > 0?(
+
+                      <h2><FaStar />{ratings(spotReviews)}<LuDot className="dot" />{spotReviews.length === 1 ? '1 review' : `${spotReviews.length} reviews`}</h2>
+
+                    ) : (
+                      <h2>New</h2>
+                    )}
+                  </div>
+
+                  <div className="reviews-container">
+                      {selectedSpot && Array.isArray(spotReviews) && spotReviews.length > 0 && (
+                        <>
+                          <h3>Reviews</h3>
+                          <ul>
+                            {spotReviews.map((review, index) => (
+                              <div className="inside-reviews" key={index}>
+                                <span className="user">{review.User.firstName}</span>
+                                <li key={index}>{review.review}</li>
+                                <span className="created-at">{new Date(review.createdAt).toLocaleDateString()}</span>
+                                <span className="star-rating">{formatRating(review.stars)}</span>
+                              </div>
+                            ))}
+                          </ul>
+                        </>
+                      )}
                     </div>
 
-                    <div className="reviews-container">
-                      <h3>Reviews</h3>
-                      <ul>
-                        {spotReviews.map((review, index) => (
-                          <div className="inside-reviews" key={index}>
-                            <li key={index}>{review.review}</li>
-                            <span>{formatRating(review.stars)}</span>
-                          </div>
-                        ))}
-                      </ul>
-                    </div>
                     </div>
                 </div>
             )}

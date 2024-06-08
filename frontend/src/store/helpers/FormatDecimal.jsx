@@ -1,11 +1,15 @@
 import { FaStar } from "react-icons/fa";
 
-export default function formatDecimal(spot) {
-  if (spot?.avgRating !== 0) {
-    const rating = Math.round(spot.avgRating * 10) / 10;
+
+export default function formatDecimal(spotId) {
+
+  if (spotId?.avgRating != null) {
+    const rating = Math.round(spotId.avgRating * 10) / 10;
+
+
     return (
       <>
-        {rating} <FaStar />
+        <FaStar />{rating.toFixed(1)}
       </>
     );
   } else {

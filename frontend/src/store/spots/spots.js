@@ -43,7 +43,7 @@ import { csrfFetch } from "../csrf";
 export const createASpot = (spot, images) => async (dispatch) => {
 
       const imgURLs = Object.values(images);
-      // const review = Object.values(reviews)
+
       const response = await csrfFetch("/api/spots", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -52,7 +52,7 @@ export const createASpot = (spot, images) => async (dispatch) => {
 
       if (response.ok) {
         const newSpot = await response.json()
-        // console.log("🚀 ~ createASpot ~ newSpot:", newSpot)
+
 
 
       for (const image of imgURLs) {
@@ -65,17 +65,9 @@ export const createASpot = (spot, images) => async (dispatch) => {
         });
     }
 
-  //   if (review.length > 0) {
-  //     for (const r of review) {
-  //         await csrfFetch(`/api/spots/${newSpot.id}/reviews`, {
-  //             method: "POST",
-  //             body: JSON.stringify(r)
-  //         });
-  //     }
-  // }
 
       await dispatch(createSpot(newSpot))
-      // await dispatch(getSpotReviews(newSpot.id))
+
 
       return newSpot
       } else {
@@ -103,7 +95,6 @@ export const getOneSpot = (spotId) => async(dispatch) => {
 
     if(response.ok){
     let data = await response.json()
-console.log("🚀 ~ getOneSpot ~ data:", data)
     dispatch(getSpot(data))
 
     return response
@@ -195,11 +186,7 @@ function spotsReducer(state ={}, action){
 
         }
         case GET_CURRENT_SPOT: {
-            let newState = {}
-            action.spot.Spots.forEach((spot) => {
-                newState[spot.id] = spot
-            })
-            return newState
+          return { ...state, ...action.spots.Spots };
         }
         case UPDATE_SPOT: {
             let newState = { ...state, [action.spot.id]: action.spot}

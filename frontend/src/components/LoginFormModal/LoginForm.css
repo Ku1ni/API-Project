@@ -32,7 +32,17 @@
     margin: 5px;
 }
 
+.demo-user {
+    margin-top: 5px;
+}
+
 .login-button {
     display: flex;
     align-items: center;
 }
+
+.login-button.disabled {
+    background-color: lightgray;
+    color: gray;
+    cursor: not-allowed;
+  }
