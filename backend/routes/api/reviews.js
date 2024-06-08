@@ -52,9 +52,9 @@ router.get('/spots/:spotId/reviews', async (req, res) => {
         ]
     });
 
-    if (reviews.length === 0) {
-        return res.status(404).json({ message: "No reviews found for this spot" });
-    }
+    // if (reviews.length === 0) {
+    //     return res.status(404).json({ message: "No reviews found for this spot" });
+    // }
 
     const response = reviews.map(review => ({
         ...review.dataValues,

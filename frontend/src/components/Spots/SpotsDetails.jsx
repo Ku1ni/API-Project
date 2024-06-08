@@ -5,7 +5,7 @@ import { FaRegStar, FaRegStarHalf, FaStar } from "react-icons/fa";
 import { getAllSpots } from "../../store/spots/spots";
 import { getSpotReviews } from "../../store/reviews/reviews";
 import formatDecimal from "../../store/helpers/FormatDecimal";
-import spotImages from "../../store/helpers/images";
+// import spotImages from "../../store/helpers/images";
 import OpenModalButton from "../OpenModalButton/OpenModelButton";
 import './SpotDetails.css'
 
@@ -14,29 +14,34 @@ export default function SpotsDetails() {
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const spots = useSelector((state) => state.spots);
+  // const reviewStore = useSelector((state) => state.reviews)
   const spotReviews = useSelector((state) => state.reviews[spotId]) || [];
 
   const selectedSpot = spots[spotId]
 
+  // const useEffectHelper = async (a) => {
+  //     await dispatch(getAllSpots(a));
+  //     await dispatch(getSpotReviews(spotId))
+  // }
+  const searchId = Math.ceil(parseInt(spotId)/20)
 
   useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(getAllSpots(searchId));
+      await dispatch(getSpotReviews(spotId))
+    }
     if(spotId){
-        dispatch(getAllSpots(spotId));
-        dispatch(getSpotReviews(spotId))
+        fetchData()
     }
 
 
-  }, [dispatch, spotId]);
+  }, [dispatch, searchId, spotId]);
 
   // useEffect(() => {
   //   console.log('selectedSpot:', selectedSpot);
   //   console.log('spotReviews:', spotReviews);
   // }, [selectedSpot, spotReviews]);
 
-
-  if (!selectedSpot) return null;
-
-  const images = spotImages[spotId] || [];
 
   function formatRating(rating) {
     const wholeStars = Math.floor(rating);
@@ -56,7 +61,7 @@ export default function SpotsDetails() {
     return starImages;
   }
   // console.log('SESSIONUSER', sessionUser.firstName)
-
+  if (!selectedSpot) return null;
   return (
     <>
         <div className="page-container">
@@ -67,7 +72,8 @@ export default function SpotsDetails() {
                         <h2>{selectedSpot.name}</h2>
                         <h3>{`${selectedSpot.city}, ${selectedSpot.state}, ${selectedSpot.country}`}</h3>
                     </header>
-                    <div className="large-image">
+
+                    {/* <div className="large-image">
                         <img
                             className="large-spot-image"
                             src={images[0]}
@@ -95,7 +101,7 @@ export default function SpotsDetails() {
                         src={images[4]}
                         alt={`Preview for ${selectedSpot.name}`}
                     />
-                    </div>
+                    </div> */}
                     <div className="host-container">
                     <div className="host">
                       <h3>Hosted by {sessionUser.firstName} {sessionUser.lastName}</h3>

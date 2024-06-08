@@ -32,7 +32,7 @@ input, textarea{
 
 .new-spot-container h3, h2{
     border-bottom: 1px black solid;
-    
+
 }
 
 .new-spot-container p {
@@ -49,6 +49,7 @@ input, textarea{
 .location-section input {
     margin-bottom: 10px;
 }
+
 
 #description {
     display: flex;

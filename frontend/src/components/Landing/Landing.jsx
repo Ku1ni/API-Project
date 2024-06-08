@@ -17,7 +17,7 @@ export default function Landing() {
 
 
   useEffect(() => {
-    dispatch(getAllSpots());
+    dispatch(getAllSpots(1));
   }, [dispatch]);
 
 

@@ -1,7 +1,42 @@
 import { csrfFetch } from "../csrf";
-import { createSpot, getSpots, getSpot, getCurrentSpot, updateSpot, deleteSpot } from "./spotActions";
-import { CREATE_SPOT, GET_SPOTS, GET_SPOT, UPDATE_SPOT, DELETE_SPOT, GET_CURRENT_SPOT} from "./spotActions";
-// import {getSpotReviews} from '../reviews/reviews'
+
+
+ const CREATE_SPOT = 'spots/create_spot'
+ const GET_SPOTS = 'spots/get_spots'
+ const GET_SPOT = 'spots/get_spot'
+ const UPDATE_SPOT = 'spots/update'
+ const DELETE_SPOT = 'spots/delete_spot'
+ const GET_CURRENT_SPOT = 'spots/get_current_spot'
+//  const GET_SPOT_IMAGES = 'spots/get_spot-images'
+
+ const createSpot = (spot) => ({
+        type: CREATE_SPOT,
+        spot
+});
+ const getSpots = (spots) => ({
+            type: GET_SPOTS,
+            spots
+})
+
+ const getSpot = (spot) => ({
+        type: GET_SPOT,
+        spot
+})
+
+ const getCurrentSpot = (spots) => ({
+    type: GET_CURRENT_SPOT,
+    spots
+})
+
+ const updateSpot = (spot) => ({
+    type: UPDATE_SPOT,
+    spot
+})
+
+ const deleteSpot = (spot) => ({
+    type: DELETE_SPOT,
+    spot
+})
 
 
 
@@ -49,8 +84,8 @@ export const createASpot = (spot, images) => async (dispatch) => {
   };
 
 
-export const getAllSpots = () => async(dispatch) => {
-    let response = await csrfFetch('/api/spots')
+export const getAllSpots = (page) => async(dispatch) => {
+    let response = await csrfFetch(`/api/spots?page=${parseInt(page)}`)
     if(response.ok){
     let data = await response.json();
     dispatch(getSpots(data))
@@ -61,14 +96,16 @@ export const getAllSpots = () => async(dispatch) => {
     return error
   }
 }
-
+//
 
 export const getOneSpot = (spotId) => async(dispatch) => {
     let response = await csrfFetch(`/api/spots/${spotId}`)
 
     if(response.ok){
     let data = await response.json()
+console.log("🚀 ~ getOneSpot ~ data:", data)
     dispatch(getSpot(data))
+
     return response
   }else {
     const error = await response.json()
@@ -150,8 +187,11 @@ function spotsReducer(state ={}, action){
             return newState
         }
         case GET_SPOT: {
-            let newState = { [action.spot.id]: action.spot}
-            return newState
+          const newState = {
+            ...state,
+            [action.spot.id]: action.spot,
+          };
+          return newState;
 
         }
         case GET_CURRENT_SPOT: {

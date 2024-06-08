@@ -203,17 +203,38 @@ router.get("/", async (req, res) => {
 
 // Get details of a Spot from an id
   router.get('/:spotId', requireAuth, async (req, res) => {
+    
     const spot = await Spot.findByPk(req.params.spotId,{
       include: 'previewImage'
     });
 
 
+    let spotImage = await SpotImages.findAll({
+      where: { spotId: spot.id },
+    });
+    spot.SpotImages = spotImage;
     if(spot) {
       const response = {
-        ...spot.dataValues,
-        createdAt: dateFormat(spot.createdAt),
-        updatedAt: dateFormat(spot.updatedAt),
-        previewImage: spot.previewImage ? spot.previewImage.url : null
+        // ...spot.dataValues,
+        // createdAt: dateFormat(spot.createdAt),
+        // updatedAt: dateFormat(spot.updatedAt),
+        // previewImage: spot.previewImage ? spot.previewImage.url : null
+        id: spot.id,
+    ownerId: spot.ownerId,
+    address: spot.address,
+    city: spot.city,
+    state: spot.state,
+    country: spot.country,
+    lat: +spot.lat,
+    lng: +spot.lng,
+    name: spot.name,
+    description: spot.description,
+    price: +spot.price,
+    createdAt: dateFormat(spot.createdAt),
+    updatedAt: dateFormat(spot.updatedAt),
+    avgRating: spot.avgRating || 0,
+    SpotImages: spot.SpotImages,
+
       }
       return res.json(response)
     }else {

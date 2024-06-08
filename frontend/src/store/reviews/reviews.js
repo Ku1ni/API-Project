@@ -10,9 +10,6 @@ const getReviews = (reviews, spotId) => ({
 
 export const getSpotReviews = (spotId, reviews) => {
     return async (dispatch) => {
-        // if (reviews === undefined) {
-        //     reviews = [];
-        // }
         const response = await csrfFetch(`/api/spots/${spotId}/reviews`);
         if(response.ok){
         const data = await response.json(reviews)
@@ -26,18 +23,6 @@ export const getSpotReviews = (spotId, reviews) => {
             return 'New'
         }
     };
-    // return (dispatch) => {
-    //     if (reviews && reviews.length > 0) {
-    //         // If reviews are provided, dispatch an action to update the store with these reviews
-    //         dispatch(getReviews(reviews, spotId));
-    //         console.log("Received reviews for spot ID:", spotId, reviews);
-    //         return reviews;
-    //     } else {
-    //         // If no reviews provided, return 'New' or any other appropriate value
-    //         console.log("No reviews received for spot ID:", spotId);
-    //         return 'New';
-    //     }
-    // };
   };
 const initialState = {}
 function reviewsReducer(state = initialState, action){
