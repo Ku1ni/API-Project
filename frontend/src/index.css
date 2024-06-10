@@ -21,6 +21,7 @@ button {
     height: 200px;
     justify-content: flex-end;
     align-items: flex-end;
+    margin-top: 50px;
 }
 
 .footer-container {

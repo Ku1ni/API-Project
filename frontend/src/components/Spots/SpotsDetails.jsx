@@ -91,25 +91,25 @@ const sortedReviews = spotReviews ? [...spotReviews].sort((a, b) => new Date(b.c
                     <div className="small-image">
                     <img
                         className="small-spot-image"
-                        src={selectedSpot?.SpotImages?.[1].url}
+                        src={selectedSpot?.SpotImages?.[1]?.url || "https://res.cloudinary.com/dvly0pgsm/image/upload/v1717986839/placeholder-image-icon-0_j7hveq.png"}
                         alt={`Preview for ${selectedSpot.name}`}
                     />
                     <img
                         className="small-spot-image"
-                        src={selectedSpot?.SpotImages?.[2].url}
+                        src={selectedSpot?.SpotImages?.[2]?.url || "https://res.cloudinary.com/dvly0pgsm/image/upload/v1717986839/placeholder-image-icon-0_j7hveq.png"}
                         alt={`Preview for ${selectedSpot.name}`}
                     />
                     <img
                         className="small-spot-image"
-                        src={selectedSpot?.SpotImages?.[3].url}
+                        src={selectedSpot?.SpotImages?.[3]?.url || "https://res.cloudinary.com/dvly0pgsm/image/upload/v1717986839/placeholder-image-icon-0_j7hveq.png"}
                         alt={`Preview for ${selectedSpot.name}`}
                     />
                     <img
                         className="small-spot-image"
-                        src={selectedSpot?.SpotImages?.[4].url}
+                        src={selectedSpot?.SpotImages?.[4]?.url || "https://res.cloudinary.com/dvly0pgsm/image/upload/v1717986839/placeholder-image-icon-0_j7hveq.png"}
                         alt={`Preview for ${selectedSpot.name}`}
                     />
-                    </div>
+                  </div>
                     <div className="host-container">
                     <div className="host">
                     <h3>Hosted by {selectedSpot.Owner ? `${selectedSpot.Owner.firstName} ${selectedSpot.Owner.lastName}` : 'Unknown'}</h3>

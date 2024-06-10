@@ -1,5 +1,9 @@
 # AirBnB Clone
 
+### Live Site URL
+
+- [Shore Thing Live Site](https://shore-thing.onrender.com)
+
 ## Database Schema Design
 
 ![airbnb-database-schema]

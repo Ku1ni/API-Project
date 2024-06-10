@@ -152,18 +152,6 @@ export const deleteCurrentSpot = (spotId) => async(dispatch) => {
   }
 }
 
-// export const getImages = (spotId) => async(dispatch) => {
-//   const response = await csrfFetch(`/api/spots/${spotId}`);
-//   if(response.ok){
-//     const data = await response.json()
-//     dispatch(getSpotImages(data))
-
-//   }else {
-//     const error = await response.json()
-//     console.log('ERROR', error)
-//     return error
-//   }
-// }
 
 
 function spotsReducer(state ={}, action){
@@ -186,7 +174,11 @@ function spotsReducer(state ={}, action){
 
         }
         case GET_CURRENT_SPOT: {
-          return { ...state, ...action.spots.Spots };
+          let newState = {};
+            action.spots.Spots.forEach((spot) => {
+              newState[spot.id] = spot;
+            });
+            return newState;
         }
         case UPDATE_SPOT: {
             let newState = { ...state, [action.spot.id]: action.spot}
