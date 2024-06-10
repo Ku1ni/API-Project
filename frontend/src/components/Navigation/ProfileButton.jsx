@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { CgProfile } from 'react-icons/cg';
 import { NavLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { currentSpot } from '../../store/spots/spots';
 
 import * as sessionActions from '../../store/session';
 // import OpenModalButton from '../OpenModalButton/OpenModelButton';
@@ -16,6 +17,17 @@ function ProfileButton({ user }) {
   const navigate = useNavigate()
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+
+  const spots = Object.values(useSelector(state => state.spots));
+
+  useEffect(() => {
+    if (user) {
+      dispatch(currentSpot());
+    }
+  }, [dispatch, user]);
+
+
+
 
   const toggleMenu = (e) => {
     e.stopPropagation();
@@ -62,10 +74,13 @@ function ProfileButton({ user }) {
         {user ? (
           <ul className='user-profile-button'>
           <li>Hello, {user.firstName}</li>
-          <li>{user.username}</li>
           <li>{user.email}</li>
           <li>
-              <NavLink to="/manage">Manage Spots</NavLink>
+          {spots.length > 0 ? (
+                <NavLink to="/manage">Manage Spots</NavLink>
+              ) : (
+                <NavLink className='user-modal-create-spot'to="spots/new">Create a New Spot</NavLink>
+              )}
             </li>
           <li>
 

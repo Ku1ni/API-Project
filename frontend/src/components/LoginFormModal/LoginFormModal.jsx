@@ -54,11 +54,11 @@ function LoginFormModal() {
   };
 
   return (
-    <div className='login-container'>
+    <div className='modal-login-container'>
       <h1>Log In</h1>
-      <form className='login-form-container' onSubmit={handleSubmit}>
-        <div className='input-fields'>
-          <label className='credential-container'>
+      <form className='modal-login-form-container' onSubmit={handleSubmit}>
+        <div className='modal-input-fields'>
+          <label className='modal-credential-container'>
             Username or Email
             <input
               type="text"
@@ -70,7 +70,7 @@ function LoginFormModal() {
           {hasSubmitted && errors.credential && (
             <p>{errors.credential}</p>
           )}
-          <label className='password-container'>
+          <label className='modal-password-container'>
             Password
             <input
               type="password"
@@ -84,17 +84,16 @@ function LoginFormModal() {
           )}
         </div>
         <button
-          className='login-button'
+          className='modal-login-button'
           type="submit"
           disabled={!isFormValid}
         >
           Log In
         </button>
       </form>
-      <button className='demo-user' onClick={handleDemoUser}>Log In as Demo User</button>
+      <button className='modal-demo-user' onClick={handleDemoUser}>Log In as Demo User</button>
     </div>
   );
 }
 
 export default LoginFormModal;
-

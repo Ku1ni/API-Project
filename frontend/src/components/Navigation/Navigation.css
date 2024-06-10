@@ -50,7 +50,7 @@
   list-style: none;
   border: 1px solid #ccc;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   background-color: white;
   padding: 10px;
   border-radius: 10px;
@@ -75,7 +75,9 @@
 
 .login-container button:hover, .signup-container button:hover {
   cursor: pointer;
-  box-shadow: 5px 5px 5px #ccc;
+
+    box-shadow: 5px 5px 5px #AEEBFF;
+
 }
 
 .logo-banner {

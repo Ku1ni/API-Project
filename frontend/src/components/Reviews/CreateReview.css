@@ -20,6 +20,11 @@
     border-radius: 5px;
 }
 
+.review-submit:disabled {
+    cursor: not-allowed;
+    background-color: darkgray;
+}
+
 .rating-input > div {
     cursor: pointer;
 

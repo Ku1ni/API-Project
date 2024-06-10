@@ -113,3 +113,7 @@
   .delete-buttons button {
     margin: 0 10px;
   }
+
+  .close:hover {
+    cursor: pointer;
+  }

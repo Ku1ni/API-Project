@@ -53,7 +53,7 @@ export default function Landing() {
             <div className="spot-details">
               <div className="left">
                 <div className="spot-location">{`${spot.city}, ${spot.state}`}</div>
-                <div className="spot-price">{`$${spot.price}`} Night</div>
+                <div className="spot-price">{`$${spot.price}`} night</div>
               </div>
               <div className="right">
                 <div className="spot-decimal">{formatDecimal(spot)}</div>

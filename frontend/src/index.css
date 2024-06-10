@@ -8,6 +8,11 @@ button {
     background-color: #AEEBFF;
 }
 
+button:hover {
+    cursor: pointer;
+    box-shadow: 5px 5px 5px #ccc;
+}
+
 #modal-content {
     background: url('../../frontend/dist/assets/1179383-25717d39.jpg')  no-repeat center center;
     background-size: cover;

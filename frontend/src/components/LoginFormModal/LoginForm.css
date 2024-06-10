@@ -1,69 +1,56 @@
-.login-container {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    align-items: center;
+#modal-content {
+    padding: 20px;
 }
 
-.login-form-container {
+.modal-login-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
 
-.login-container button {
-    display: flex;
-    justify-content: center;
-}
-
-.input-fields {
+.modal-login-form-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: 10px;
 }
 
-.password-container {
+.modal-input-fields {
     display: flex;
     flex-direction: column;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 5px;
-    background-color: white;
+    justify-content: center;
+    gap: 10px;
 }
 
-.login-container h1 {
+.modal-input-fields input {
     display: flex;
     justify-content: center;
-}
-
-.credential-container {
-    display: flex;
-    justify-content: center;
-    margin: 5px;
-}
-
-.input-fields label {
-    background-color: transparent;
-    border: none;
-}
-
-.demo-user {
-    margin-top: 5px;
-}
-
-.login-button {
-    display: flex;
     align-items: center;
+    width: 100%;
 }
 
-.login-button:disabled {
+.modal-login-button {
+    display: flex;
+    justify-content: center;
+    border-radius: 5px;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.modal-demo-user {
+    display: flex;
+    justify-content: center;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.modal-login-button:disabled {
     background-color: lightgray;
     color: gray;
     cursor: not-allowed;
 }
 
-.login-button:disabled:hover {
+.modal-login-button:disabled:hover {
     box-shadow: none;
 }

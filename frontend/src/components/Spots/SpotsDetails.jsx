@@ -72,93 +72,90 @@ const sortedReviews = spotReviews ? [...spotReviews].sort((a, b) => new Date(b.c
 
   return (
     <>
-        <div className="page-container">
+      <div className="page-container">
+        {selectedSpot && (
+          <div className="details-container" key={selectedSpot.id}>
+            <header className="header">
+              <h2>{selectedSpot.name}</h2>
+              <h3>{`${selectedSpot.city}, ${selectedSpot.state}, ${selectedSpot.country}`}</h3>
+            </header>
 
-            {selectedSpot && (
-            <div className="details-container" key={selectedSpot.id}>
-                    <header className="header">
-                        <h2>{selectedSpot.name}</h2>
-                        <h3>{`${selectedSpot.city}, ${selectedSpot.state}, ${selectedSpot.country}`}</h3>
-                    </header>
+            <div className="large-image">
+              <img
+                className="large-spot-image"
+                src={selectedSpot?.SpotImages?.[0].url}
+                alt={`Preview for ${selectedSpot.name}`}
+              />
+            </div>
+            <div className="small-image">
+              <img
+                className="small-spot-image"
+                src={selectedSpot?.SpotImages?.[1]?.url || "https://res.cloudinary.com/dvly0pgsm/image/upload/v1717986839/placeholder-image-icon-0_j7hveq.png"}
+                alt={`Preview for ${selectedSpot.name}`}
+              />
+              <img
+                className="small-spot-image"
+                src={selectedSpot?.SpotImages?.[2]?.url || "https://res.cloudinary.com/dvly0pgsm/image/upload/v1717986839/placeholder-image-icon-0_j7hveq.png"}
+                alt={`Preview for ${selectedSpot.name}`}
+              />
+              <img
+                className="small-spot-image"
+                src={selectedSpot?.SpotImages?.[3]?.url || "https://res.cloudinary.com/dvly0pgsm/image/upload/v1717986839/placeholder-image-icon-0_j7hveq.png"}
+                alt={`Preview for ${selectedSpot.name}`}
+              />
+              <img
+                className="small-spot-image"
+                src={selectedSpot?.SpotImages?.[4]?.url || "https://res.cloudinary.com/dvly0pgsm/image/upload/v1717986839/placeholder-image-icon-0_j7hveq.png"}
+                alt={`Preview for ${selectedSpot.name}`}
+              />
+            </div>
+            <div className="host-container">
+              <div className="host">
+                <h3>Hosted by {selectedSpot.Owner ? `${selectedSpot.Owner.firstName} ${selectedSpot.Owner.lastName}` : 'Unknown'}</h3>
+              </div>
+              <p className="description-container">
+                {selectedSpot.description}
+              </p>
+            </div>
 
-                    <div className="large-image">
-                        <img
-                            className="large-spot-image"
-                            src={selectedSpot?.SpotImages?.[0].url}
-                            alt={`Preview for ${selectedSpot.name}`}
-                        />
-                    </div>
-                    <div className="small-image">
-                    <img
-                        className="small-spot-image"
-                        src={selectedSpot?.SpotImages?.[1]?.url || "https://res.cloudinary.com/dvly0pgsm/image/upload/v1717986839/placeholder-image-icon-0_j7hveq.png"}
-                        alt={`Preview for ${selectedSpot.name}`}
-                    />
-                    <img
-                        className="small-spot-image"
-                        src={selectedSpot?.SpotImages?.[2]?.url || "https://res.cloudinary.com/dvly0pgsm/image/upload/v1717986839/placeholder-image-icon-0_j7hveq.png"}
-                        alt={`Preview for ${selectedSpot.name}`}
-                    />
-                    <img
-                        className="small-spot-image"
-                        src={selectedSpot?.SpotImages?.[3]?.url || "https://res.cloudinary.com/dvly0pgsm/image/upload/v1717986839/placeholder-image-icon-0_j7hveq.png"}
-                        alt={`Preview for ${selectedSpot.name}`}
-                    />
-                    <img
-                        className="small-spot-image"
-                        src={selectedSpot?.SpotImages?.[4]?.url || "https://res.cloudinary.com/dvly0pgsm/image/upload/v1717986839/placeholder-image-icon-0_j7hveq.png"}
-                        alt={`Preview for ${selectedSpot.name}`}
-                    />
+            <div className="price-container">
+              <div className="price-info">
+                <div className="price-review">
+                  <h2 className="price">${selectedSpot.price} night</h2>
+
+                  <div className="ratings">
+                    <h3 className="review-info">
+                      <FaStar />{ratings(spotReviews)}
+                      {spotReviews && spotReviews.length > 0 && (
+                        <>
+                          <LuDot className="dot" />
+                          {spotReviews.length === 1 ? '1 review' : `${spotReviews.length} reviews`}
+                        </>
+                      )}
+                    </h3>
                   </div>
-                    <div className="host-container">
-                    <div className="host">
-                    <h3>Hosted by {selectedSpot.Owner ? `${selectedSpot.Owner.firstName} ${selectedSpot.Owner.lastName}` : 'Unknown'}</h3>
-                    </div>
-                    <div className="description-container">
-                      {selectedSpot.description}
-                    </div>
-                    </div>
+                </div>
 
-                      <div className="price-container">
-                        <div className="price-info">
-                          <div className="price-review">
-                            <h2 className="price">${selectedSpot.price} Night</h2>
+                <div className="button-container">
+                  <OpenModalButton
+                    modalComponent={<h2>Feature Coming Soon...</h2>}
+                    buttonText="Reserve"
+                  />
+                </div>
+              </div>
+            </div>
+            <div className="reviews-ratings">
+              <div className="ratings-container">
+                {spotReviews && spotReviews.length > 0 ? (
+                  <h2><FaStar />{ratings(spotReviews)}<LuDot className="dot" />{spotReviews.length === 1 ? '1 review' : `${spotReviews.length} reviews`}</h2>
+                ) : (
+                  <h2><FaStar /> New</h2>
+                )}
+              </div>
 
-                            <div className="ratings">
-                            <h3 className="review-info">
-                              <FaStar />{ratings(spotReviews)}
-                              {spotReviews && spotReviews.length > 0 && (
-                                <>
-                                  <LuDot className="dot" />
-                                  {spotReviews.length === 1 ? '1 review' : `${spotReviews.length} reviews`}
-                                </>
-                              )}
-                            </h3>
-                            </div>
-                            </div>
-
-                            <div className="button-container">
-                            <OpenModalButton
-
-                            modalComponent={<h2>Feature Coming Soon...</h2>}
-                            buttonText="Reserve"
-                            />
-                            </div>
-                        </div>
-                      </div>
-                    <div className="reviews-ratings">
-                    <div className="ratings-container">
-                    {spotReviews && spotReviews.length > 0 ? (
-                      <h2><FaStar />{ratings(spotReviews)}<LuDot className="dot" />{spotReviews.length === 1 ? '1 review' : `${spotReviews.length} reviews`}</h2>
-                    ) : (
-                      <h2><FaStar /> New</h2>
-                    )}
-                  </div>
-
-                  <div className="reviews-container">
-                {selectedSpot && sortedReviews.length > 0 && (
+              <div className="reviews-container">
+                {selectedSpot && sortedReviews.length > 0 ? (
                   <>
-                    <h3>Reviews</h3>
                     {sessionUserId && sessionUserId.id !== selectedSpot?.ownerId && !booked && !sortedReviews.some(review => review.userId === sessionUserId?.id) && (
                       <OpenModalButton
                         modalComponent={<CreateReview spotId={spotId} sessionUserId={sessionUserId} spotOwnerId={selectedSpot.ownerId} />}
@@ -187,13 +184,16 @@ const sortedReviews = spotReviews ? [...spotReviews].sort((a, b) => new Date(b.c
                       />
                     )}
                   </>
+                ) : (
+                  sessionUserId && sessionUserId.id !== selectedSpot?.ownerId && (
+                    <p>Be the first to post a review!</p>
+                  )
                 )}
               </div>
-
-                    </div>
-                </div>
-            )}
-        </div>
+            </div>
+          </div>
+        )}
+      </div>
     </>
   );
 }

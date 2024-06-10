@@ -38,7 +38,7 @@ export default function ManageSpot(){
             <div className="top">
             <h1 className="title">Manage your Spots</h1>
             <NavLink to='/spots/new'>
-                <button className="add-spot-button">Add Spot</button>
+                <button className="add-spot-button">Create a New Spot</button>
             </NavLink>
             </div>
             {spots.length === 0 ? (

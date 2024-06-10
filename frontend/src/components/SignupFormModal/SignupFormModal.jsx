@@ -21,7 +21,7 @@ function SignupFormModal() {
   useEffect(() => {
     let validation = {}
     if(username.length < 4) validation.username = "Must be long than 4 characters"
-    if(password.length < 6) validation.password = " Must be longer than 4 characters"
+    if(password.length < 6) validation.password = " Must be longer than 6 characters"
     setErrors(validation)
     const isValid = Object.keys(validation).length === 0;
     setIsFormValid(isValid);
@@ -66,7 +66,7 @@ function SignupFormModal() {
             type="text"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            required
+
           />
         </label>
         {errors.email && <p>{errors.email}</p>}
@@ -86,7 +86,7 @@ function SignupFormModal() {
             type="text"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            required
+
           />
         </label>
         {errors.firstName && <p>{errors.firstName}</p>}
@@ -96,7 +96,7 @@ function SignupFormModal() {
             type="text"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            required
+
           />
         </label>
         {errors.lastName && <p>{errors.lastName}</p>}
@@ -110,13 +110,13 @@ function SignupFormModal() {
           />
         </label>
         {hasSubmitted && errors.password && <p>{errors.password}</p>}
-        <label className='signup-cpassword-container'>
+        <label className='signup-password-container'>
           Confirm Password
           <input
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
-            required
+            
           />
         </label>
         {errors.confirmPassword && (

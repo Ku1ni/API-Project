@@ -189,16 +189,6 @@ function spotsReducer(state ={}, action){
             delete newState[action.spotId]
             return newState
         }
-        // case GET_SPOT_IMAGES: {
-        //   const {spotId, images} = action
-        //   return {
-        //     ...state,
-        //     [spotId]: {
-        //       ...state[spotId],
-        //       images:images
-        //     }
-        //   }
-        // }
         default:
             return state
     }
