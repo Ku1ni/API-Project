@@ -48,6 +48,7 @@ function LoginFormModal() {
     try {
       await dispatch(login(demoCredential));
       closeModal();
+      
     } catch (error) {
       console.error("Failed to log in as demo user", error);
     }
