@@ -9,7 +9,7 @@ export default function formatDecimal(spotId) {
 
     return (
       <>
-        <FaStar />{rating.toFixed(1)}
+        <FaStar /> {rating.toFixed(1)}
       </>
     );
   } else {

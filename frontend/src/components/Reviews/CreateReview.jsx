@@ -1,100 +1,94 @@
-// import { useDispatch, useSelector } from "react-redux";
-// import { useEffect, useState } from "react";
-// import { useParams } from "react-router-dom";
-// import { createSpotReview } from "../../store/reviews/reviews";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { createSpotReview } from "../../store/reviews/reviews";
+import { useModal } from "../../context/Modal";
+import RatingInput from "./ReviewStarRating";
+import './CreateReview.css'
 
-// const CreateReview = (r) => {
-//     // State variables
-//   const [reviewText, setReviewText] = useState("");
-//   const [selectedStars, setSelectedStars] = useState(0);
-//   const [activeStar, setActiveStar] = useState(0);
-//   const [reviewErrors, setReviewErrors] = useState([]);
-//   const [filledStars, setFilledStars] = useState(0);
+export default function CreateReview ({spotId, sessionUserId, spotOwnerId}) {
+    // State variables
+  const [reviewText, setReviewText] = useState("");
+  const [selectedStars, setSelectedStars] = useState(0);
+  const { closeModal } = useModal();
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+  const [error, setError] = useState({});
 
-//   // Redux
-//   const dispatch = useDispatch();
-//   const { spotId } = useParams();
-//   const reviews = useSelector((state) => Object.values(state.reviews));
-//   const sessionUserId = useSelector((state) => state.session.user?.id);
-//   const spotOwnerId = useSelector((state) => state.spots?.[spotId]?.ownerId);
 
-// // Effect for validation
-// useEffect(() => {
-//     const validationErrors = [];
-//     if (reviewText.length < 10) {
-//       validationErrors.push("Review must be at least 10 characters");
-//     }
-//     if (selectedStars === 0) {
-//       validationErrors.push("Please select a star rating");
-//     }
-//     setReviewErrors(validationErrors);
-//   }, [reviewText, selectedStars]);
+  // Redux
+  const dispatch = useDispatch();
+  const reviews = Object.values(useSelector((state) => (state.reviews)));
 
-//   // Reset state
-//   const resetState = () => {
-//     setReviewText("");
-//     setSelectedStars(0);
-//     setReviewErrors([]);
-//   };
 
-//   // Form submission
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
+// Effect for validation
+useEffect(() => {
 
-//     const newReview = { review: reviewText, stars: selectedStars };
-//     dispatch(createSpotReview(newReview, spotId));
+    let validation = {};
+    if (reviewText.length < 10) validation.reviewText = 'Review must be at least 10 characters';
+    if (selectedStars === 0) validation.selectedStars = 'Please select a star rating';
+    setError(validation);
+  }, [reviewText, selectedStars]);
 
-//     resetState();
-//     props.closeModal();
-//   };
+  // Reset state
+  const resetState = () => {
+    setReviewText("");
+    setSelectedStars(0);
+    setError({});
+    setHasSubmitted(false)
+  };
 
-//   // Find existing review by current user
-//   const existingReview = reviews.find((review) => review.userId === sessionUserId);
+  // Form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setHasSubmitted(true)
+    if (Object.values(error).length === 0) {
+      const newReview = { review: reviewText, stars: selectedStars };
+      await dispatch(createSpotReview(newReview, spotId));
+      resetState();
+      closeModal();
+    }
+  };
 
-//   return (
-//     <div>
-//       {sessionUserId && sessionUserId !== spotOwnerId && !existingReview && (
-//         <form onSubmit={handleSubmit}>
-//           <h2>How was your stay?</h2>
-//           <textarea
-//             name="reviewtext"
-//             id="reviewtext"
-//             placeholder="Leave your review here..."
-//             value={reviewText}
-//             onChange={(e) => setReviewText(e.target.value)}
-//           />
-//           <p className="errorMessage">
-//             {reviewErrors.map((error, index) => (
-//               <span key={index}>{error}</span>
-//             ))}
-//           </p>
-//           <div>
-//             {[1, 2, 3, 4, 5].map((rating) => (
-//               <label key={rating}>
-//                 <input
-//                   type="radio"
-//                   name="starRating"
-//                   value={rating}
-//                   onClick={() => {
-//                     setSelectedStars(rating);
-//                     setFilledStars(rating);
-//                   }}
-//                 />
-//                 <span
-//                   onMouseEnter={() => setActiveStar(rating)}
-//                   onMouseLeave={() => setActiveStar(0)}
-//                 >
-//                   {activeStar >= rating || rating <= filledStars ? <FaStar /> : <FaRegStar />}
-//                 </span>
-//               </label>
-//             ))}
-//             <span>{selectedStars} Stars</span>
-//           </div>
-//           <button disabled={reviewErrors.length}>Submit Your Review</button>
-//         </form>
-//       )}
-//     </div>
-//   );
-// };
+  const handleChange = (newRating) => {
+    setSelectedStars(newRating);
+  };
 
-// export default MakeReview;
+  const existingReview = reviews.find((review) => {
+    const isMatch = review.userId === sessionUserId;
+    return isMatch
+  });
+
+
+
+  const showForm =
+    sessionUserId &&
+    sessionUserId !== spotOwnerId &&
+    !existingReview;
+
+  return (
+    <div>
+      {showForm ? (
+        <form className= 'review-form'onSubmit={handleSubmit}>
+          <h2 className="review-title">How was your stay?</h2>
+          <textarea
+            className="review-input"
+            name="reviewtext"
+            id="reviewtext"
+            placeholder="Leave your review here..."
+            value={reviewText}
+            onChange={(e) => setReviewText(e.target.value)}
+          />
+          {hasSubmitted && error.reviewText && <span>{error.reviewText}</span>}
+
+          <div className="star-input">
+            <RatingInput selectedStars={selectedStars} onChange={handleChange} disabled={false}/>
+            <h3>Stars </h3>
+          </div>
+          {hasSubmitted && error.selectedStars && <span>{error.selectedStars}</span>}
+
+          <button className='review-submit'type="submit" disabled={Object.values(error).length !== 0}>Submit Your Review</button>
+        </form>
+      ) :
+      <h1>Cannot leave review on own spot</h1>}
+    </div>
+  );
+}

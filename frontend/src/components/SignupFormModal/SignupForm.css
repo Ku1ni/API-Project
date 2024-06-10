@@ -1,0 +1,35 @@
+.signup-button:disabled {
+    background-color: lightgray;
+    color: gray;
+    cursor: not-allowed;
+}
+
+.signup-button:disabled:hover {
+    box-shadow: none;
+}
+
+.signup-container h1 {
+    display: flex;
+    justify-content: center;
+}
+
+.signup-form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.signup-form-container input {
+    display: flex;
+    border: 1px solid #ccc;
+}
+
+.signup-form-container label {
+    margin: 10px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+

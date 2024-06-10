@@ -18,6 +18,6 @@ export default function formatRating(spot) {
 
       return starImages;
     } else {
-      return <div>NEW</div>;
+      return <div>New</div>;
     }
   }

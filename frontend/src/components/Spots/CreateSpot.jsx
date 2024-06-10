@@ -32,7 +32,7 @@ function CreateSpot() {
     useEffect(() => {
         let validation = {};
         if (name.length < 5) validation.name = "Name is required (Must be at least 5 characters)";
-        if (name.length > 30) validation.name = "Name must be less than 50 characters";
+        if (name.length > 50) validation.name = "Name must be less than 50 characters";
         if (address.length < 5) validation.address = "Street address is required";
         if (city.length < 1) validation.city = "City is required";
         if (state.length < 1) validation.state = "State is required";
@@ -41,7 +41,7 @@ function CreateSpot() {
         if (lng < -180 || lng > 180) validation.lng = "Longitude must be within -180 and 180";
         if (description.length < 30) validation.description = "Description needs 30 or more characters";
         if (price < 1) validation.price = "Price per night is required";
-        if (previewImage.url.length < 1) validation.previewImage = "Preview image URL is required";
+        if (!previewImage.url) validation.previewImage = "Preview image URL is required";
         setError(validation);
     }, [
         name,
@@ -91,7 +91,6 @@ function CreateSpot() {
 
 
         let newSpot = await dispatch(createASpot(spot, images));
-console.log("🚀 ~ onSubmit ~ newSpot:", newSpot.id)
         await dispatch(getOneSpot(newSpot.id));
         navigate(`/spots/${newSpot.id}`);
     };
@@ -104,7 +103,7 @@ console.log("🚀 ~ onSubmit ~ newSpot:", newSpot.id)
     return (
         <div className="container">
             <div className="new-spot-container">
-                <h2>Create New Spot</h2>
+                <h2>Create a New Spot</h2>
                 <form className="create-form" onSubmit={onSubmit}>
                     <div className="location-section">
                         <h3>Where&apos;s your place located?</h3>
@@ -121,7 +120,7 @@ console.log("🚀 ~ onSubmit ~ newSpot:", newSpot.id)
                         </label>
                         {hasSubmitted && error.country && <span>{error.country}</span>}
 
-                        <label htmlFor="address">Address:
+                        <label htmlFor="address">Street Address:
                             <input
                                 type="text"
                                 id="address"
@@ -202,7 +201,7 @@ console.log("🚀 ~ onSubmit ~ newSpot:", newSpot.id)
                             type="text"
                             id="name"
                             name="name"
-                            placeholder="Name your spot"
+                            placeholder="Name of your spot"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
                         />

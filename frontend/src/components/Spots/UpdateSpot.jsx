@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { updateCurrentSpot, getOneSpot } from "../../store/spots/spots"
-
+import './UpdateSpot.css'
 export default function UpdateSpot(){
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -90,7 +90,8 @@ export default function UpdateSpot(){
     };
 
     return(
-        <div>
+        <div className="container">
+        <div className="update-container">
             <h1>Update your spot</h1>
             <form className="create-form" onSubmit={onSubmit}>
                     <div className="location-section">
@@ -214,8 +215,9 @@ export default function UpdateSpot(){
                         className='submit-button'
                         disabled={Object.values(error).length !== 0}
                         type="submit"
-                    >Update Spot</button>
+                    >Update your Spot</button>
                 </form>
+            </div>
         </div>
     )
 }

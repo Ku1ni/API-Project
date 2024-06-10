@@ -68,6 +68,13 @@
 
 .price, .ratings {
     text-align: center;
+    border: none;
+
+}
+
+.ratings {
+    display: flex;
+    align-items: center;
 }
 
 .button-container {
@@ -128,8 +135,85 @@
     padding: 10px;
 }
 
+.reviews-container button{
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    display: flex;
+    width: fit-content;
+}
 
 #modal-content {
     padding: 15px;
     border-radius: 10px;
 }
+
+.delete-button{
+    background-color: red;
+}
+
+
+.cancel-button {
+    background-color: darkgray;
+}
+
+.price-review {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+    text-align: center;
+    gap: 20px;
+}
+
+.review-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rating-input {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: fit-content;
+  }
+.spot-price {
+    color: #747474;
+}
+
+.delete-review-button {
+    margin: 10px;
+}
+
+.modal-buttons {
+    display: flex;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+  }
+
+  .modal-content {
+    text-align: center;
+  }
+
+  .modal-buttons button {
+    margin: 0 10px;
+  }
+
+  .delete-button {
+    background-color: red;
+  }

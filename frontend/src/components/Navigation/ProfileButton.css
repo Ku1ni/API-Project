@@ -51,6 +51,13 @@
     border:  2px solid #ccc;;
   }
 
+
+
+
   .menu-button:hover {
     box-shadow: 5px 5px 5px #ccc;
+  }
+
+  .create-dpot-btn {
+    font-size: 30px;
   }

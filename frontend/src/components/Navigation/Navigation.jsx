@@ -3,7 +3,6 @@ import { useSelector } from "react-redux";
 import ProfileButton from "./ProfileButton";
 import OpenModalButton from "../OpenModalButton/OpenModelButton";
 import LoginFormModal from "../LoginFormModal/LoginFormModal";
-import { FaUmbrellaBeach } from "react-icons/fa6";
 import SignupFormModal from "../SignupFormModal/SignupFormModal";
 import "./Navigation.css";
 
@@ -11,12 +10,13 @@ import "./Navigation.css";
 function Navigation({ isLoaded }) {
   const sessionUser = useSelector((state) => state.session.user);
 
+
   const sessionLinks = sessionUser ? (
     <li className="button-container">
-      <ProfileButton className='profile-icon' user={sessionUser} />
+      <ProfileButton className="profile-icon" user={sessionUser} />
     </li>
   ) : (
-    <ul className='credential-container'>
+    <ul className="credential-container">
       <li className="login-container">
         <OpenModalButton
           buttonText="Log In"
@@ -34,17 +34,17 @@ function Navigation({ isLoaded }) {
 
   return (
     <div>
-
-    <ul className='home-container' style={{ listStyle: "none" }}>
-      <li className="home-button">
-        <NavLink to="/"><FaUmbrellaBeach size={50} /></NavLink>
-
-      </li>
-
-      {isLoaded && sessionLinks}
-    </ul>
-
-
+      <ul className="home-container" style={{ listStyle: "none" }}>
+        <li className="home-button">
+          <NavLink className="logo-banner" to="/">
+            <img
+              src="https://res.cloudinary.com/dvly0pgsm/image/upload/v1717965705/Shore_Thing_zpoczo.png"
+              alt=""
+            />
+          </NavLink>
+        </li>
+        {isLoaded && sessionLinks}
+      </ul>
     </div>
   );
 }

@@ -1,0 +1,38 @@
+.review-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.review-title {
+    border: none;
+}
+
+.review-input {
+    display: flex;
+    width: 100%;
+
+}
+
+.review-submit {
+    border-radius: 5px;
+}
+
+.rating-input > div {
+    cursor: pointer;
+
+}
+
+.star-input {
+    display: flex;
+    gap: 5px;
+}
+.star-input h3 {
+    font-size: 20px;
+}
+
+.rating-input  div img{
+    width: 20px;
+}

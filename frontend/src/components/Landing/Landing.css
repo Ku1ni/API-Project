@@ -22,10 +22,15 @@
     padding: 20px;
     border: 1px solid #ccc;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  }
+}
 
-  .popout-content {
-    display: flex;
-    text-align: center;
-    width: fit-content;
-  }
+.popout-content {
+  display: flex;
+  text-align: center;
+  width: fit-content;
+}
+
+.spot-details {
+  display: flex;
+  justify-content: space-between;
+}

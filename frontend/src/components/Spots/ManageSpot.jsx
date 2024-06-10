@@ -15,7 +15,7 @@ export default function ManageSpot(){
     const [currentSpotId, setCurrentSpotId] = useState(null);
 
     const spots = Object.values(useSelector((state) => state.spots))
-    console.log("🚀 ~ ManageSpot ~ spots:", spots[0]?.previewImage[0]?.url)
+
 
     const toggle = (spotId = null) => {
         setModal(!modal)
@@ -34,11 +34,13 @@ export default function ManageSpot(){
         }
     }
     return(
-            <>
-            <h1>Manage Spots</h1>
+            <div className="manage-spots-container">
+            <div className="top">
+            <h1 className="title">Manage your Spots</h1>
             <NavLink to='/spots/new'>
-                <button>Add Spot</button>
+                <button className="add-spot-button">Add Spot</button>
             </NavLink>
+            </div>
             {spots.length === 0 ? (
                 <div className="no-spots">
                     <p>No spots available</p>
@@ -54,10 +56,14 @@ export default function ManageSpot(){
                                     className="tileThumbnail"
                                 />
                                 <div className="spot-info">
-                                    <span className="spot-name">{spot.name}</span>
-                                    <div className="spot-location">{`${spot.city}, ${spot.state}`}</div>
-                                    <div className="price">{`$${spot.price}`}</div>
-                                    <div className="stars">
+                                    <div className="left">
+                                        <div className="spot-location">{`${spot.city}, ${spot.state}`}</div>
+                                        <div className="price">{`$${spot.price}`} Night</div>
+                                    </div>
+                                    <div className="right">
+
+                                        <div className="stars">
+                                    </div>
                                         <FaStar />
                                         {spot?.avgRating !== 0
                                             ? (spot?.avgRating % 1 === 0
@@ -82,42 +88,32 @@ export default function ManageSpot(){
                                 </button>
                             </div>
                             {modal && currentSpotId === spot.id && (
-                                <div className="modal" onClick={toggle}>
-                                    <div
-                                        className="modal-content"
-                                        onClick={(e) => e.stopPropagation()}
-                                    >
-                                        <span
-                                            className="close"
-                                            onClick={toggle}
-                                        >
-                                            X
+                                    <div className="modal-overlay">
+                                    <div className="modal">
+                                        <span className="close" onClick={toggle}>
+                                        X
                                         </span>
+                                        <div className="modal-content">
                                         <h3>Confirm Delete</h3>
                                         <p>Are you sure that you want to remove this spot?</p>
                                         <br />
                                         <div className="delete-buttons">
-                                            <button
-                                                className="confirm-delete-button"
-                                                onClick={handleDelete}
-                                            >
-                                                Yes (Delete Spot)
+                                            <button className="confirm-delete-button" onClick={handleDelete}>
+                                            Yes (Delete Spot)
                                             </button>
-                                            <button
-                                                className="cancel-delete-button"
-                                                onClick={toggle}
-                                            >
-                                                No (Keep Spot)
+                                            <button className="cancel-delete-button" onClick={toggle}>
+                                            No (Keep Spot)
                                             </button>
                                         </div>
+                                        </div>
                                     </div>
-                                </div>
-                            )}
+                                    </div>
+                                )}
                         </div>
                     ))}
                 </div>
             )}
-        </>
+        </div>
     )
 
 }

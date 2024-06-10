@@ -1,4 +1,115 @@
-.tile img {
-    max-width: 300px;
-    max-height: 300px;
+
+* {
+    color: black;
+    text-decoration: none;
 }
+.confirm-delete-button{
+    background-color: red;
+}
+
+.cancel-delete-button{
+    background-color: darkgray;
+}
+
+.manage-spots-container {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.manage-spots-container button {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 20%;
+}
+
+.spot-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tile img {
+    width: 400px;
+    height: 400px;
+    border-radius: 10px;
+}
+
+.tile {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+.add-spot-button {
+    padding: 10px 30px;
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+.delete-button {
+    background-color: #AEEBFF
+}
+
+.spot-location {
+    font-weight: bold;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.price {
+    color: #747474;
+}
+
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal {
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+  }
+
+  .modal-content {
+    text-align: center;
+  }
+
+  .modal-content .close {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    cursor: pointer;
+  }
+
+  .delete-buttons button {
+    margin: 0 10px;
+  }

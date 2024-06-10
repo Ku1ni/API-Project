@@ -2,7 +2,7 @@ import { csrfFetch } from "../csrf";
 
 const GET_SPOT_REVIEWS = 'spots/get-spot-reviews'
 const DELETE_REVIEWS = 'spots/delete-reviews'
-const CREATE_REVIEWS = 'spots/create_reviews'
+const CREATE_REVIEWS = 'spots/create-reviews'
 
 const getReviews = (reviews, spotId) => ({
     type: GET_SPOT_REVIEWS,
@@ -15,10 +15,11 @@ const deleteReview = (reviewId) => ({
     reviewId
 })
 
-const createReview = (review) => {
+const createReview = (review, spotId) => {
     return {
         type: CREATE_REVIEWS,
-        review
+        review,
+        spotId
     }
 }
 
@@ -52,14 +53,20 @@ export const getSpotReviews = (spotId, reviews) => {
 
   export const createSpotReview = (review, spotId) => {
     return async(dispatch) => {
-        const response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
+
+        let response = await csrfFetch(`/api/spots/${spotId}/reviews`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(review)
         })
+        if(response.ok){
         const newReview = await response.json()
-        await dispatch(createReview(newReview))
+        await dispatch(createReview(newReview, spotId))
         return newReview
+        } else {
+            console.error('Failed to create review:', response.statusText);
+            return null;
+          }
     }
   }
 
@@ -74,14 +81,19 @@ function reviewsReducer(state = initialState, action){
                 }
             }
             case DELETE_REVIEWS: {
-                const newState = { ...state }
-                delete newState[action.reviewId]
-                return newState
-            }
+                const { reviewId } = action;
+                const updatedState = { ...state };
+                const spotId = Object.keys(updatedState).find(
+                  (spotId) => updatedState[spotId].some((review) => review.id === reviewId)
+                );
+                if (spotId) {
+                  updatedState[spotId] = updatedState[spotId].filter((review) => review.id !== reviewId);
+                }
+                return updatedState;
+              }
             case CREATE_REVIEWS: {
-                const newState = { ...state, [action.review.id]: action.review}
-                return newState
-
+                let newState = { ...state, [action.review.id]: action.review };
+                return newState;
             }
 
         default:

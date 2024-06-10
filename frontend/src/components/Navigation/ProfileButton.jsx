@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { CgProfile } from 'react-icons/cg';
 import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import * as sessionActions from '../../store/session';
 // import OpenModalButton from '../OpenModalButton/OpenModelButton';
@@ -12,6 +13,7 @@ import OpenModalMenuItem from './OpenModalMenuItem';
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
@@ -43,6 +45,7 @@ function ProfileButton({ user }) {
   const logout = (e) => {
     e.preventDefault();
     dispatch(sessionActions.logout());
+    navigate('/')
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
@@ -53,7 +56,7 @@ function ProfileButton({ user }) {
         <button className="create-spot-btn">Create a Spot</button>
         </NavLink>
       <button className='menu-button' onClick={toggleMenu}>
-        <CgProfile className="profile-button" />
+        <CgProfile className="profile-button" size={30}/>
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
@@ -65,9 +68,9 @@ function ProfileButton({ user }) {
               <NavLink to="/manage">Manage Spots</NavLink>
             </li>
           <li>
-            <NavLink to='/'>
+
             <button className='logout-button' onClick={logout}>Log Out</button>
-            </NavLink>
+
           </li>
         </ul>
       ) : (

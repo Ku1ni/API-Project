@@ -1,31 +1,36 @@
 import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useEffect } from "react";
-import { FaRegStar, FaRegStarHalf, FaStar } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { FaStar, FaRegStarHalf, FaRegStar } from "react-icons/fa";
 import { LuDot } from "react-icons/lu";
 import { getOneSpot } from "../../store/spots/spots";
 import { getSpotReviews } from "../../store/reviews/reviews";
-// import formatDecimal from "../../store/helpers/FormatDecimal";
+import CreateReview from "../Reviews/CreateReview";
 import OpenModalButton from "../OpenModalButton/OpenModelButton";
+import { deleteSpotReview } from "../../store/reviews/reviews";
+import DeleteReview from "../Reviews/DeleteReview";
 import './SpotDetails.css'
 
 export default function SpotsDetails() {
+  const [reviewToDelete, setReviewToDelete] = useState(null);
   const { spotId } = useParams();
   const dispatch = useDispatch();
-  // const sessionUser = useSelector((state) => state.session.user);
-  const spots = useSelector((state) => state.spots);//spot
+  const sessionUserId = useSelector((state) => state.session.user);
+  const spots = useSelector((state) => state.spots);
   const selectedSpot = spots[spotId]
  const spotReviews = useSelector((state) => state.reviews[spotId]);
- let averageStars;
+ const reviews = Object.values((state) => state.reviews)
+
+
 
   function ratings(spotReviews) {
-if (spotReviews && spotReviews.length > 0) {
-   const totalStars = spotReviews.reduce((acc, review) => acc + review.stars, 0);
-   averageStars = totalStars / spotReviews.length;
-   return averageStars.toFixed(1);
- } else {
-   return 'New';
- }
+  if (spotReviews && spotReviews.length > 0) {
+    const totalStars = spotReviews.reduce((acc, review) => acc + review.stars, 0);
+    const averageStars = totalStars / spotReviews.length;
+    return averageStars.toFixed(1);
+  } else {
+    return 'New';
+  }
  }
 
 
@@ -36,11 +41,6 @@ if (spotReviews && spotReviews.length > 0) {
       dispatch(getSpotReviews(spotId))
 
   }, [dispatch, spotId]);
-
-
-
-
-
 
 
 function formatRating(rating) {
@@ -60,9 +60,16 @@ function formatRating(rating) {
     return starImages;
   }
 
+  const handleDeleteReview = () => {
+    dispatch(deleteSpotReview(reviewToDelete.id))
+    setReviewToDelete(null)
+  };
 
 
+const booked = reviews.find((review) => review.userId === sessionUserId?.id)
+const sortedReviews = spotReviews ? [...spotReviews].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)) : [];
  if (!selectedSpot) return null;
+
   return (
     <>
         <div className="page-container">
@@ -114,17 +121,22 @@ function formatRating(rating) {
 
                       <div className="price-container">
                         <div className="price-info">
+                          <div className="price-review">
                             <h2 className="price">${selectedSpot.price} Night</h2>
 
                             <div className="ratings">
-                            <h3>
+                            <h3 className="review-info">
                               <FaStar />{ratings(spotReviews)}
-                              <LuDot className="dot" />
-                              {spotReviews && spotReviews.length !== undefined ? (
-                                spotReviews.length === 1 ? '1 review' : `${spotReviews.length} reviews`
-                              ) : 'Loading reviews...'}
+                              {spotReviews && spotReviews.length > 0 && (
+                                <>
+                                  <LuDot className="dot" />
+                                  {spotReviews.length === 1 ? '1 review' : `${spotReviews.length} reviews`}
+                                </>
+                              )}
                             </h3>
                             </div>
+                            </div>
+
                             <div className="button-container">
                             <OpenModalButton
 
@@ -136,32 +148,47 @@ function formatRating(rating) {
                       </div>
                     <div className="reviews-ratings">
                     <div className="ratings-container">
-                    {spotReviews && spotReviews.length > 0?(
-
+                    {spotReviews && spotReviews.length > 0 ? (
                       <h2><FaStar />{ratings(spotReviews)}<LuDot className="dot" />{spotReviews.length === 1 ? '1 review' : `${spotReviews.length} reviews`}</h2>
-
                     ) : (
-                      <h2>New</h2>
+                      <h2><FaStar /> New</h2>
                     )}
                   </div>
 
                   <div className="reviews-container">
-                      {selectedSpot && Array.isArray(spotReviews) && spotReviews.length > 0 && (
-                        <>
-                          <h3>Reviews</h3>
-                          <ul>
-                            {spotReviews.map((review, index) => (
-                              <div className="inside-reviews" key={index}>
-                                <span className="user">{review.User.firstName}</span>
-                                <li key={index}>{review.review}</li>
-                                <span className="created-at">{new Date(review.createdAt).toLocaleDateString()}</span>
-                                <span className="star-rating">{formatRating(review.stars)}</span>
-                              </div>
-                            ))}
-                          </ul>
-                        </>
-                      )}
-                    </div>
+                {selectedSpot && sortedReviews.length > 0 && (
+                  <>
+                    <h3>Reviews</h3>
+                    {sessionUserId && sessionUserId.id !== selectedSpot?.ownerId && !booked && !sortedReviews.some(review => review.userId === sessionUserId?.id) && (
+                      <OpenModalButton
+                        modalComponent={<CreateReview spotId={spotId} sessionUserId={sessionUserId} spotOwnerId={selectedSpot.ownerId} />}
+                        buttonText="Post Your Review"
+                      />
+                    )}
+                    <ul>
+                      {sortedReviews.map((review, index) => (
+                        <div className="inside-reviews" key={index}>
+                          <span className="user">{review.User?.firstName}</span>
+                          <li>{review.review}</li>
+                          <span className="created-at">{new Date(review.createdAt).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>
+                          <span className="star-rating">{formatRating(review.stars)}</span>
+                          {sessionUserId && review.User.id === sessionUserId.id && (
+                            <button onClick={() => setReviewToDelete(review)} className="delete-review-button">
+                              Delete
+                            </button>
+                          )}
+                        </div>
+                      ))}
+                    </ul>
+                    {reviewToDelete && (
+                      <DeleteReview
+                        handleDeleteReview={handleDeleteReview}
+                        setReviewToDelete={setReviewToDelete}
+                      />
+                    )}
+                  </>
+                )}
+              </div>
 
                     </div>
                 </div>

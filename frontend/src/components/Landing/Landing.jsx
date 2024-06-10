@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllSpots } from "../../store/spots/spots";
 import { useNavigate } from "react-router-dom";
-import formatRating from "../../store/helpers/FormatRating";
 import formatDecimal from "../../store/helpers/FormatDecimal";
 import './Landing.css';
 
@@ -39,8 +38,8 @@ export default function Landing() {
   return (
     <>
       <div className="spot-container">
-        {spots.map((spot) => (
-          <div className="title" key={spot.id} onClick={() => handleSpotClick(spot)}>
+        {spots.map((spot, index) => (
+          <div className="title" key={`${spot.id}-${index}`} onClick={() => handleSpotClick(spot)}>
 
             <img
               className="title-image"
@@ -52,11 +51,13 @@ export default function Landing() {
               onMouseLeave={handleSpotHoverOut}
             />
             <div className="spot-details">
-              <div className="spot-name">{`${spot.name}`}</div>
-              <div className="spot-location">{`${spot.city}, ${spot.state}`}</div>
-              <div className="spot-price">{`$${spot.price}`} Night</div>
-              <div className="spot-rating">{formatRating(spot)}</div>
-              <div className="spot-decimal">{formatDecimal(spot)}</div>
+              <div className="left">
+                <div className="spot-location">{`${spot.city}, ${spot.state}`}</div>
+                <div className="spot-price">{`$${spot.price}`} Night</div>
+              </div>
+              <div className="right">
+                <div className="spot-decimal">{formatDecimal(spot)}</div>
+              </div>
             </div>
           </div>
         ))}
