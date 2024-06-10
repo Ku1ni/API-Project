@@ -32,7 +32,7 @@ module.exports = {
             price: 322
         },
         {
-            ownerId: 2,
+            ownerId: 1,
             address: "123 Ocean View Dr",
             city: "Malibu",
             state: "California",
@@ -44,7 +44,7 @@ module.exports = {
             price: 450
         },
         {
-            ownerId: 4,
+            ownerId: 2,
             address: "456 Beachside Ave",
             city: "Key West",
             state: "Florida",
@@ -56,7 +56,7 @@ module.exports = {
             price: 550
         },
         {
-            ownerId: 4,
+            ownerId: 2,
             address: "789 Seaside Rd",
             city: "Cape Cod",
             state: "Massachusetts",
@@ -68,7 +68,7 @@ module.exports = {
             price: 300
         },
         {
-            ownerId: 5,
+            ownerId: 3,
             address: "101 Sandy Beach Blvd",
             city: "Hilton Head Island",
             state: "South Carolina",
@@ -80,7 +80,7 @@ module.exports = {
             price: 400
         },
         {
-            ownerId: 6,
+            ownerId: 3,
             address: "246 Shoreline Dr",
             city: "Santa Barbara",
             state: "California",
@@ -92,7 +92,7 @@ module.exports = {
             price: 600
         },
         {
-            ownerId: 7,
+            ownerId: 4,
             address: "369 Beach Haven Ln",
             city: "Outer Banks",
             state: "North Carolina",
@@ -104,7 +104,7 @@ module.exports = {
             price: 350
         },
         {
-            ownerId: 8,
+            ownerId: 4,
             address: "987 Palm Tree Ave",
             city: "Maui",
             state: "Hawaii",
@@ -116,7 +116,7 @@ module.exports = {
             price: 700
         },
         {
-            ownerId: 9,
+            ownerId: 5,
             address: "741 Coastal Retreat Rd",
             city: "Destin",
             state: "Florida",
@@ -128,7 +128,7 @@ module.exports = {
             price: 500
         },
         {
-            ownerId: 10,
+            ownerId: 5,
             address: "22 Rowes Pl",
             city: "Heathsville",
             state: "Virginia",
@@ -140,7 +140,7 @@ module.exports = {
             price: 322
         },
         {
-            ownerId: 11,
+            ownerId: 6,
             address: "555 Coastal Dr",
             city: "Carmel-by-the-Sea",
             state: "California",
@@ -152,7 +152,7 @@ module.exports = {
             price: 600
         },
         {
-            ownerId: 12,
+            ownerId: 6,
             address: "777 Sandy Cove Rd",
             city: "Myrtle Beach",
             state: "South Carolina",
@@ -164,7 +164,7 @@ module.exports = {
             price: 450
         },
         {
-            ownerId: 13,
+            ownerId: 7,
             address: "999 Shoreline Dr",
             city: "Nantucket",
             state: "Massachusetts",
@@ -176,7 +176,7 @@ module.exports = {
             price: 400
         },
         {
-            ownerId: 14,
+            ownerId: 7,
             address: "111 Beachfront Ave",
             city: "San Diego",
             state: "California",
@@ -188,7 +188,7 @@ module.exports = {
             price: 550
         },
         {
-            ownerId: 15,
+            ownerId: 8,
             address: "222 Seaside Blvd",
             city: "Charleston",
             state: "South Carolina",
@@ -200,7 +200,7 @@ module.exports = {
             price: 400
         },
         {
-            ownerId: 16,
+            ownerId: 8,
             address: "333 Coastal Trail",
             city: "Big Sur",
             state: "California",
@@ -212,7 +212,7 @@ module.exports = {
             price: 400
         },
         {
-            ownerId: 17,
+            ownerId: 9,
             address: "123 Beachfront Blvd",
             city: "Laguna Beach",
             state: "California",
@@ -224,7 +224,7 @@ module.exports = {
             price: 500
         },
         {
-            ownerId: 18,
+            ownerId: 9,
             address: "456 Ocean Drive",
             city: "Miami Beach",
             state: "Florida",
@@ -236,7 +236,7 @@ module.exports = {
             price: 600
         },
         {
-            ownerId: 19,
+            ownerId: 10,
             address: "789 Sunset Lane",
             city: "Malibu",
             state: "California",
@@ -248,7 +248,7 @@ module.exports = {
             price: 700
         },
         {
-            ownerId: 20,
+            ownerId: 10,
             address: "321 Seaview Avenue",
             city: "Honolulu",
             state: "Hawaii",

@@ -47,67 +47,8 @@ module.exports = {
       review: "This spot was exactly what I needed. Clean and cozy!",
       stars: 4
     },
-    {
-      userId: 11,
-      spotId: 4,
-      review: "Average spot with decent amenities.",
-      stars: 3
-    },
-    {
-      userId: 12,
-      spotId: 4,
-      review: "I was not satisfied with this spot. It was not as advertised.",
-      stars: 5
-    },
-    {
-      userId: 13,
-      spotId: 5,
-      review: "Excellent spot! Clean, comfortable, and convenient.",
-      stars: 5
-    },
-    {
-      userId: 14,
-      spotId: 5,
-      review: "Decent spot, but could use some updates.",
-      stars: 3
-    },
-    {
-      userId: 15,
-      spotId: 5,
-      review: "Unfortunately, this spot was not well-maintained. Disappointing experience.",
-      stars: 4
-    },
-    {
-      userId: 16,
-      spotId: 6,
-      review: "Lovely spot with breathtaking views! Would definitely stay here again.",
-      stars: 5
-    },
-    {
-      userId: 17,
-      spotId: 6,
-      review: "Average spot with decent amenities.",
-      stars: 3
-    },
-    {
-      userId: 18,
-      spotId: 6,
-      review: "This spot was not as expected. Needs improvement in cleanliness and facilities.",
-      stars: 2
-    },
-    {
-      userId: 19,
-      spotId: 7,
-      review: "Great spot with excellent facilities. Would recommend to anyone!",
-      stars: 5
-    },
-    {
-      userId: 20,
-      spotId: 7,
-      review: "Decent spot, but could use some updates.",
-      stars: 4
-    },
     
+
 
    ], { validate: true})
   },

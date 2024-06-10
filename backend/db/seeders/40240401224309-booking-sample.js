@@ -115,66 +115,7 @@ module.exports = {
         startDate: "2023-06-13",
         endDate: "2023-06-14"
       },
-      {
-        spotId: 4,
-        userId: 11,
-        startDate: "2023-06-15",
-        endDate: "2023-06-16"
-      },
-      {
-        spotId: 4,
-        userId: 12,
-        startDate: "2023-06-17",
-        endDate: "2023-06-18"
-      },
-      {
-        spotId: 5,
-        userId: 13,
-        startDate: "2023-06-14",
-        endDate: "2023-06-15"
-      },
-      {
-        spotId: 5,
-        userId: 14,
-        startDate: "2023-06-16",
-        endDate: "2023-06-17"
-      },
-      {
-        spotId: 5,
-        userId: 15,
-        startDate: "2023-06-18",
-        endDate: "2023-06-19"
-      },
-      {
-        spotId: 6,
-        userId: 16,
-        startDate: "2023-06-15",
-        endDate: "2023-06-16"
-      },
-      {
-        spotId: 6,
-        userId: 17,
-        startDate: "2023-06-17",
-        endDate: "2023-06-18"
-      },
-      {
-        spotId: 6,
-        userId: 18,
-        startDate: "2023-06-19",
-        endDate: "2023-06-20"
-      },
-      {
-        spotId: 7,
-        userId: 19,
-        startDate: "2023-06-16",
-        endDate: "2023-06-17"
-      },
-      {
-        spotId: 7,
-        userId: 20,
-        startDate: "2023-06-18",
-        endDate: "2023-06-19"
-      },
+
 
     ], { validate: true})
   },
